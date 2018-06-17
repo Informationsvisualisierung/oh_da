@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        * INDEX
+        * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+        * Gruppe: OH_DA 
+        * Hochschule Darmstadt, Sommersemester 2018
+        * Projekt: Visual Forecast Analytics
+        * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
+    -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- CUSTOM -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>OH_DA</title>
+</head>
+<body>
+    <header>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="index.html">
+               <img src="" width="100" height="30" class="d-inline-block align-top" alt="LOGO">
+                 OH_DA
+            </a>
+            <form class="form-inline">
+                <input class="form-control mr-md-12" type="search" placeholder="Search" aria-label="Search">                           
+                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </nav>
+    </header>
+    <main>
+        <div class="container-fluid">
+            <!-- CONTENT -->
+            <div class="row">
+                
+                <!-- FILTER & AUSWAHL-->
+                <div class="col-3 content-left card">
+                    <div class="card-header">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-filter-tab" data-toggle="tab" href="#nav-filter" role="tab" aria-controls="nav-filter" aria-selected="true">Filter</a>
+                                <a class="nav-item nav-link" id="nav-vis-tab" data-toggle="tab" href="#nav-vis" role="tab" aria-controls="nav-vis" aria-selected="false">Visualisierung</a>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
+                                <form action="" method="">
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                        <label class="form-check-label" for="exampleRadios1">Database 1</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                        <label class="form-check-label" for="exampleRadios2">Database 2</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3">
+                                        <label class="form-check-label" for="exampleRadios2">Database 3</label>
+                                    </div>
+                                    <div class="range-year">
+                                        <label for="year">Year</label>
+                                        <input type="range" class="custom-range" min="0" max="5" id="year"> 
+                                    </div>
+                                    <div class="vis-button">
+                                        <button class="btn btn-outline-success" type="submit">Visualize me!</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="nav-vis" role="tabpanel" aria-labelledby="nav-vis-tab">
+                                <div class="vis-button">
+                                    <button class="btn btn-outline-success" type="submit">Visualize me!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MAIN CONTENT  -->
+                <div class="col-8 content-right">
+                    <!-- BREADCRUMB TRAILS -->
+                    <div class="row">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Autorenssuche</a></li>
+                                <li class="breadcrumb-item"><a href="#">Siegel, Melanie</a></li>
+                                <li class="breadcrumb-item"><a href="#">Keywords</a></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- VISUALISIERUNGEN -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="vis-default">
+                                <p style="color: black; font-size:30px; text-align: center; padding-top: 200px;">Visualisierungsinhalt</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DRAG AND DROP -->
+                    <div class="row content-drag drag-row">
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </main>
+    <footer>
+         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<!-- ***** SCRIPTS ***** -->
+
+    <!-- BOOTSTRAP -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- CUSTOM -->
+    <script src="vis_one.js"></script>
+    <script src="vis_two.js"></script>
+    <script src="vis_three.js"></script>
+
+</body>
+</html>

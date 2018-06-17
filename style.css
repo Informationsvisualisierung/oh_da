@@ -1,0 +1,130 @@
+/******
+ * CSS File
+ * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+ * Gruppe: OH_DA Hochschule Darmstadt, 
+ * Sommersemester 2018
+ * Projekt: Visual Forecast Analytics
+ * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
+*****/
+
+/*** BASICS ***/
+body{
+    background-color: #3d3233;
+    color: #3daeac;
+    font-size: 16px;
+}
+navbar{ padding: 20px 0;}
+main{
+    height: 700px;
+}
+footer{
+    color: #322b28;
+    text-align:center;
+    padding: 20px 0 10px 0;
+    background-color: #757273;
+    font-size: 20px;
+}
+a{ color: #5dc4c0; }
+a:hover{ opacity: 0.8; color:#5dc4c0;}
+a:active{ color: #322b28; }
+
+/*** ADDITIONAL CLASSES ***/
+.tac{ text-align: center; }
+.content-left{ margin: 70px 0;}
+.content-right{ margin: 6px 5px;}
+.content-drag{ margin: 5px 0 0 0;}
+.vis-button{
+    position: absolute;
+    top: 530px;
+}
+.vis-default{
+    border: 2px solid #322b28;
+    width: 800px;
+    height: 450px;
+    background-color: #3daeac;
+}
+.check-mr{margin: 10px 0;}
+.drag-row{width: 800px;}
+.drag-div{
+    margin-top: 20px;
+    text-align: center;
+    background-color: #757273;
+    border: 2px solid #322b28;
+    width: 80px;
+    height: 124px;
+}
+.range-year{
+    margin: 40px 0;
+    color:#322b28;
+}
+/*** BOOTSTRAP OVERWRITE ***/
+
+/* Button für die Search Bar */
+.btn-success{
+    color: #757273 !important;
+    border: 2px solid #3daeac !important;
+    background-color: #8ae0de !important; 
+    width: 5em;
+}
+
+/* Button für Filter */
+.btn-outline-success{
+    color: #3d3233 !important;
+    border: 2px solid #3daeac !important;
+    border-radius: 20px;
+    background-color: #8ae0de !important; 
+    width: 12.5em;
+}
+.btn-outline-success:hover{
+    opacity: 0.6;
+}
+
+/* Navbar Background */
+.bg-light{
+    background-color: #9c999a !important;
+}
+
+/* Breadcrumb */
+.breadcrumb{
+    background-color: #3d3233 !important;
+    border: none;
+}
+.breadcrumb>li+li:before { color: #5dc4c0; content: ">" !important; }
+
+/* Form */
+.form-check-label{ color:#322b28; }
+
+/* Cards */
+.card{
+    margin-left:20px;
+    border: 2px solid #322b28;
+    border-radius: none;
+    background-color: #757273;
+    height: 600px;
+}
+.card-body{
+    border-radius: none;
+    background-color: #757273;
+}
+.card-text{
+    color: #322b28;
+}
+
+/* Card Links */
+.nav-tabs{background-color: #757273 !important;}
+.nav-item{background-color: #757273 !important;}
+.nav-link {background-color: #3d3233 !important;}
+.nav-item:active{
+    background-color: #757273 !important;
+    color: #322b28;
+}
+/*** FONT AWESOME ***/
+.fa-search{
+    color: #322b28;
+    font-size: 1em;
+}
+.fa-plus{
+    margin-top: 12px;
+    color: #3daeac;
+    font-size: 6em;
+}
