@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        * INDEX
+        * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+        * Gruppe: OH_DA 
+        * Hochschule Darmstadt, Sommersemester 2018
+        * Projekt: Visual Forecast Analytics
+        * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
+    -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- CUSTOM -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>OH_DA</title>
+</head>
+<body>
+   <div class="container pdt-250">
+       <div class="row">
+            <div class="col-6 align-self-center" style="background-color: white;">
+                <div class="border-bottom"><h1>Welcome</h1></div>
+            </div>
+        </div>
+        <div class="row" style="background-color: greenyellow;">
+            <div class="col-xs-6 col-xs-offset-3" style="background-color: blue;">
+                <p class="pdt-20">What are you looking for?</p>
+            </div>
+        </div>
+        <div class="col-xs-6 col-xs-offset-3" style="background-color:red;">
+            <form method="" action="">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="authors" id="author" value="author_name">
+                    <label class="form-check-label" for="author">
+                        Authors
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="topics" id="topic" value="topic_name">
+                    <label class="form-check-label" for="topic">
+                        Topics
+                    </label>
+                </div>
+                <input class="form-control col-6 justify-content-center" type="search" placeholder="Search" aria-label="Search">     
+                <div class="pdt-20">                    
+                    <button class="btn btn-outline-success" type="submit">Visualize me!</button>
+                </div>  
+            </form>
+           </div>
+       </div>
+   </div>
+
+<!-- ***** SCRIPTS ***** -->
+
+    <!-- BOOTSTRAP -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- CUSTOM -->
+    <script src="src/vis_one.js"></script>
+    <script src="src/vis_two.js"></script>
+    <script src="src/vis_three.js"></script>
+
+</body>
+</html>
