@@ -27,9 +27,9 @@ a:active                { color: #322b28; }
 
 /*** ADDITIONAL CLASSES ***/
 .tac                    { text-align: center; }
-.content-left           { margin: 70px 0;}
-.content-right          { margin: 6px 5px;}
-.content-drag           { margin: 5px 0 0 0;}
+.content-left           { margin: 70px 0; }
+.content-right          { margin: 6px 5px; }
+.content-drag           { margin: 5px 0 0 0; }
 .vis-button             { position: absolute; top: 530px; }
 .vis-default{
     border: 2px solid #322b28;
@@ -80,7 +80,7 @@ a:active                { color: #322b28; }
 .breadcrumb>li+li:before    { color: #5dc4c0; content: ">" !important; }
 
 /* Form */
-.form-check-label{ color:#322b28; }
+.form-check-label           { color:#322b28; }
 
 /* Cards */
 .card{
@@ -90,32 +90,22 @@ a:active                { color: #322b28; }
     background-color: #757273;
     height: 600px;
 }
-.card-body{
-    border-radius: none;
-    background-color: #757273;
-}
-.card-text{
-    color: #322b28;
-}
+.card-body                  { border-radius: none; background-color: #757273; }
+.card-text                  { color: #322b28; }
 
 /* Card Links */
-.nav-tabs{background-color: #757273 !important;}
-.nav-item{background-color: #757273 !important;}
-.nav-link {background-color: #3d3233 !important;}
-.nav-item:active{
-    background-color: #757273 !important;
-    color: #322b28;
-}
+.nav-tabs                   { background-color: #3d3233 !important; border: none; }
+.nav-item                   { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important;}
+.nav-link                   { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; }
+.nav-link:active,
+.nav-link:focus             { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; opacity: 0.8;}
+.nav-item:active            { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; color: #322b28; }
+
 /*** FONT AWESOME ***/
-.fa-search{
-    color: #322b28;
-    font-size: 1em;
-}
-.fa-plus{
-    margin-top: 12px;
-    color: #3daeac;
-    font-size: 6em;
-}
+.fa-search                  { color: #322b28; font-size: 1em; }
+.fa-plus                    { margin-top: 12px; color: #3daeac; font-size: 6em; }
 
 /* LANDING PAGE */
-.line { border: 2px solid #3daeac}
+.line                       { border: 2px solid #3daeac}
+
+/* Radio Button */
