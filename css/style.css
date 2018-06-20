@@ -10,7 +10,8 @@
 /*** BASICS ***/
 body                    { background-color: #3d3233; color: #3daeac; font-size: 16px; }
 .pdt-20                 { padding: 20px 0 0 0; }
-.pdt-250                { padding: 300px 0 0 0; }
+.pdt-200                { padding: 200px 0 0 0; }
+.pdb-20                 { padding: 0 0 20px 0; }
 navbar                  { padding: 20px 0;}
 main                    { height: 700px; }
 footer{
@@ -56,7 +57,11 @@ a:active                { color: #322b28; }
     background-color: #8ae0de !important; 
     width: 5em;
 }
-
+/* Glow */
+.form-control:focus {
+    border-color: #3daeac;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #3daeac;
+  }
 /* Button für Filter */
 .btn-outline-success{
     color: #3d3233 !important;
@@ -113,4 +118,4 @@ a:active                { color: #322b28; }
 }
 
 /* LANDING PAGE */
-.border-bottom { border-bottom: 5px solid #3daeac}
+.line { border: 2px solid #3daeac}
