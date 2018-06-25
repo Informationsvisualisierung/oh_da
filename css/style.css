@@ -48,7 +48,8 @@ a:active                { color: #322b28; }
     height: 124px;
 }
 .range-year             { margin: 40px 0; color:#322b28; }
-/*** BOOTSTRAP OVERWRITE ***/
+
+/******** BOOTSTRAP OVERWRITE ********/
 
 /* Button für die Search Bar */
 .btn-success{
@@ -81,6 +82,7 @@ a:active                { color: #322b28; }
 
 /* Form */
 .form-check-label           { color:#322b28; }
+.lp-margin                  { margin-left: 50px; }
 
 /* Cards */
 .card{
@@ -109,3 +111,24 @@ a:active                { color: #322b28; }
 .line                       { border: 2px solid #3daeac}
 
 /* Radio Button */
+
+
+/********************** RESPONSIVE DESIGN **********************/
+
+/* MEDIUM */ 
+@media only screen and (max-width: 1199px) and (min-width: 992px){
+
+    .lp-margin      { margin-left: 50px; }
+}
+
+/* SMALL */
+@media only screen and (max-width: 991px) and (min-width: 768px){
+
+    .lp-margin      { margin-left: 30px; }
+}
+
+/* MOBILE */
+@media only screen and (max-width: 767px){
+
+    .lp-margin       { margin-left: 20px; }
+}
