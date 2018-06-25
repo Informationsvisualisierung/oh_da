@@ -29,7 +29,9 @@ $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/eg/topics",
 				type: 'GET',
 				success: function (topics){
-					ourData.push(topics[0].phrase[0][1]);
+					var f = ourData.push(topics[0].phrase[0][0]);
+					var d = ourData.push(topics[0].phrase[0][1]);
+					ourData.push(topics[0].f);
 					console.log(ourData)
 					var placement = "#canvas",
 						width = 400,
@@ -45,11 +47,13 @@ $.ajax({
 						.attr("cx", 200)
 						.attr("cy", 200)
 						.attr("r", function(d){
-							return d*150;
+							return d.d*100;
 						});
+						
 				}
 });
-
+//function(d) greift auf die daten zu, dabei wird d in der function nicht weiter spezifiziert da wir ohnehin nur eine Zahl als Data haben
+// hätten wir mehrere Daten, jeweils für die x und y achse könnte man in der function direkt darauf zugreifen indem man "return d.x*100) schreibt
 
 		
 console.log("Hallo");
