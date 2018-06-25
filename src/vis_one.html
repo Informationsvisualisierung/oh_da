@@ -29,9 +29,8 @@ $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/eg/topics",
 				type: 'GET',
 				success: function (topics){
-					var f = ourData.push(topics[0].phrase[0][0]);
-					var d = ourData.push(topics[0].phrase[0][1]);
-					ourData.push(topics[0].f);
+					//var array_test =[{"name": (topics[0].phrase[0][0])},{"zahl": (topics[0].phrase[0][1])}];
+					ourData.push(topics[0].phrase[0][1]);
 					console.log(ourData)
 					var placement = "#canvas",
 						width = 400,
@@ -43,11 +42,13 @@ $.ajax({
 						.append("g");
 	
 					svg.append("circle").data(ourData)
-						.style("fill", "#660000")
-						.attr("cx", 200)
-						.attr("cy", 200)
+						.style("fill", "purple")
+						.attr("cx", function (d){
+							return d*150;})
+						.attr("cy", function(d){
+							return d*150;})
 						.attr("r", function(d){
-							return d.d*100;
+							return d*150;
 						});
 						
 				}
