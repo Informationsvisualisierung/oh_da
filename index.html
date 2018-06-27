@@ -48,8 +48,10 @@
             <div class="row">
                 
                 <!-- FILTER & AUSWAHL-->
+
+                <!-- TOPCIS -->
                 <div class="col-3 content-left card">
-                    <h2 style="padding: 20px 0  0 20px;">Filter</h2>
+                    <h2 class="filter-heading">Filter</h2>
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
@@ -79,25 +81,72 @@
                                     <a href="#" class="badge badge-info">Topic OUT 2<span> [ X ] </span></a>
 
                                     <div class="range-year">
-                                        <label for="year">Year</label>
-                                        <input type="range" class="custom-range" min="0" max="5" id="year"> 
+                                        <label for="year-start">Start Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start"> 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-8">
+                                    <div class="range-year">
+                                        <label for="year-end">End Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end"> 
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 tac">
                                             <button class="btn btn-outline-success" type="submit">Visualize me!</button>
                                         </div>
                                     </div>  
                                 </form>
                             </div>
-                            <div class="tab-pane fade" id="nav-vis" role="tabpanel" aria-labelledby="nav-vis-tab">
-                                <!-- INSERT FILTER HERE -->
-                                <div class="vis-button">
-                                    <button class="btn btn-outline-success" type="submit">Visualize me!</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- AUTHOR 
+                <div class="col-3 content-left card">
+                    <h2 style="padding: 20px 0  0 20px;">Filter</h2>
+                    <div class="card-body">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
+                                <form action="" method="">
+                                    <label>Databases</label>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                        <label class="form-check-label" for="exampleRadios1">Database 1</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                        <label class="form-check-label" for="exampleRadios2">Database 2</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="authorsin" style="font-weight: 500 !important;">Authors in:</label>
+                                        <input type="text" class="form-control" id="authorsin" placeholder="Please select an author">
+                                    </div>
+                                    <a href="#" class="badge badge-info">Authors IN 1<span> [ X ] </span></a>
+                                    <a href="#" class="badge badge-info">Authors IN 2<span> [ X ] </span></a>
+                                    <a href="#" class="badge badge-info">Authors IN 3<span> [ X ] </span></a>
+                                    
+                                    <div class="form-group pdt-20">
+                                        <label for="authorsout" style="font-weight: 400;">Authors out:</label>
+                                        <input type="text" class="form-control" id="authorsout" placeholder="Please select a author">
+                                    </div> 
+                                    <a href="#" class="badge badge-info">Authors OUT 1<span> [ X ] </span></a>
+                                    <a href="#" class="badge badge-info">Authors OUT 2<span> [ X ] </span></a>
+
+                                    <div class="range-year">
+                                        <label for="year-start">Start Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start"> 
+                                    </div>
+                                    <div class="range-year">
+                                        <label for="year-end">End Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end"> 
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 tac">
+                                            <button class="btn btn-outline-success" type="submit">Visualize me!</button>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
                 <!-- MAIN CONTENT  -->
                 <div class="col-8 content-right">
                     <!-- BREADCRUMB TRAILS -->
