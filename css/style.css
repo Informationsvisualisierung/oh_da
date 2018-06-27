@@ -4,103 +4,67 @@
  * Gruppe: OH_DA Hochschule Darmstadt, 
  * Sommersemester 2018
  * Projekt: Visual Forecast Analytics
- * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
 *****/
 
 /*** BASICS ***/
-body                    { background-color: #3d3233; color: #3daeac; font-size: 16px; }
-.pdt-20                 { padding: 20px 0 0 0; }
-.pdt-200                { padding: 200px 0 0 0; }
-.pdb-20                 { padding: 0 0 20px 0; }
-navbar                  { padding: 20px 0;}
-main                    { height: 700px; }
-footer{
-    color: #322b28;
-    text-align:center;
-    padding: 20px 0 10px 0;
-    background-color: #757273;
-    font-size: 20px;
-}
-a                       { color: #5dc4c0; }
-a:hover                 { opacity: 0.8; color:#5dc4c0;}
-a:active                { color: #322b28; }
+body                        { background-color: #3d3233; color: #3daeac; font-size: 16px; font-family: 'Titillium Web', sans-serif; font-weight: 200; }
+h1,h2,h3,h4,h5              { font-family: 'Titillium Web', sans-serif; font-weight: 500; }
+.pdt-20                     { padding: 20px 0 0 0; }
+.pdt-200                    { padding: 200px 0 0 0; }
+.pdb-20                     { padding: 0 0 20px 0; }
+navbar                      { padding: 20px 0; }
+main                        { height: 700px; }
+footer                      { color: #322b28; text-align:center; padding: 20px 0 10px 0; background-color: #757273; font-size: 20px; }
+a                           { color: #5dc4c0; }
+a:hover                     { opacity: 0.8; color:#5dc4c0;}
+a:active                    { color: #322b28; }
 
 /*** ADDITIONAL CLASSES ***/
-.tac                    { text-align: center; }
-.content-left           { margin: 70px 0; }
-.content-right          { margin: 6px 5px; }
-.content-drag           { margin: 5px 0 0 0; }
-.vis-button             { position: absolute; top: 530px; }
-.vis-default{
-    border: 2px solid #322b28;
-    width: 800px;
-    height: 450px;
-    background-color: #3daeac;
-}
-.check-mr               { margin: 10px 0; }
-.drag-row               { width: 800px; }
-.drag-div{
-    margin-top: 20px;
-    text-align: center;
-    background-color: #757273;
-    border: 2px solid #322b28;
-    width: 80px;
-    height: 124px;
-}
-.range-year             { margin: 40px 0; color:#322b28; }
+.tac                        { text-align: center; }
+.content-left               { margin: 70px 0; }
+.content-right              { margin: 6px 5px; }
+.content-drag               { margin: 5px 0 0 0; }
+.vis-default                { border: 2px solid #322b28; width: 800px; height: 450px; background-color: #3daeac; }
+.check-mr                   { margin: 10px 0; }
+.drag-row                   { width: 800px; }
+.drag-div                   { margin-top: 20px; text-align: center; background-color: #757273; border: 2px solid #322b28; width: 80px; height: 124px;}
+.range-year                 { margin: 20px 0; color:#3daeac; }
+.custom-range               { color:#3daeac !important; }
 
 /******** BOOTSTRAP OVERWRITE ********/
-
+/* BADGE */
+.badge-info                 { background-color: #3daeac !important; font-weight: 200; }
+.btn-info                   { background-color: #3daeac !important; height: 40px; font-weight: 200; }
 /* Button für die Search Bar */
-.btn-success{
-    color: #757273 !important;
-    border: 2px solid #3daeac !important;
-    background-color: #8ae0de !important; 
-    width: 5em;
-}
+.btn-success                { color: #757273 !important; border: 2px solid #3daeac !important; background-color: #8ae0de !important;  width: 5em; font-weight: 200; }
 /* Glow */
-.form-control:focus {
-    border-color: #3daeac;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #3daeac;
-  }
+.form-control:focus         { border-color: #3daeac; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #3daeac; }
 /* Button für Filter */
-.btn-outline-success{
-    color: #3d3233 !important;
-    border: 2px solid #3daeac !important;
-    border-radius: 20px;
-    background-color: #8ae0de !important; 
-    width: 12.5em;
-}
+.btn-outline-success        { color: #3d3233 !important; border: 2px solid #3daeac !important; border-radius: 20px; background-color: #8ae0de !important;  width: 12.5em; }
 .btn-outline-success:hover  { opacity: 0.6; }
 
 /* Navbar Background */
 .bg-light                   { background-color: #9c999a !important; }
 
 /* Breadcrumb */
-.breadcrumb                 { background-color: #3d3233 !important; border: none; }
-.breadcrumb>li+li:before    { color: #5dc4c0; content: ">" !important; }
+.breadcrumb                 { background-color: #3d3233 !important; border: none; font-weight: 200;}
+.breadcrumb>li+li:before    { color: #5dc4c0; content: ">" !important; font-weight: 200;}
 
 /* Form */
 .form-check-label           { color:#322b28; }
 .lp-margin                  { margin-left: 50px; }
 
 /* Cards */
-.card{
-    margin-left:20px;
-    border: 2px solid #322b28;
-    border-radius: none;
-    background-color: #757273;
-    height: 600px;
-}
+.card                       { margin-left:20px; border: 2px solid #322b28; border-radius: none; background-color: #757273; height: 600px; }
 .card-body                  { border-radius: none; background-color: #757273; }
 .card-text                  { color: #322b28; }
 
 /* Card Links */
 .nav-tabs                   { background-color: #3d3233 !important; border: none; }
-.nav-item                   { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important;}
+.nav-item                   { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; }
 .nav-link                   { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; }
 .nav-link:active,
-.nav-link:focus             { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; opacity: 0.8;}
+.nav-link:focus             { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; opacity: 0.8; }
 .nav-item:active            { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; color: #322b28; }
 
 /*** FONT AWESOME ***/
@@ -108,27 +72,22 @@ a:active                { color: #322b28; }
 .fa-plus                    { margin-top: 12px; color: #3daeac; font-size: 6em; }
 
 /* LANDING PAGE */
-.line                       { border: 2px solid #3daeac}
-
-/* Radio Button */
+.line                       { border: 2px solid #3daeac }
 
 
 /********************** RESPONSIVE DESIGN **********************/
 
 /* MEDIUM */ 
 @media only screen and (max-width: 1199px) and (min-width: 992px){
-
-    .lp-margin      { margin-left: 50px; }
+    .lp-margin      { margin-left: 40px; }
 }
 
 /* SMALL */
 @media only screen and (max-width: 991px) and (min-width: 768px){
-
-    .lp-margin      { margin-left: 30px; }
+    .lp-margin      { margin-left: 20px; }
 }
 
 /* MOBILE */
 @media only screen and (max-width: 767px){
-
-    .lp-margin       { margin-left: 20px; }
+    .lp-margin       { margin-left: 10px; }
 }
