@@ -1,28 +1,3 @@
-<!--/******
- * VISUALISIERUNG 1
- * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
- * Gruppe: OH_DA Hochschule Darmstadt, 
- * Sommersemester 2018
- * Projekt: Visual Forecast Analytics
- * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
-*****/
-//https://github.com/d3/d3/wiki/tutorials - turoials d3
-
-//http://api.vissights.net/databases - databases
--->
-<!DOCTYPE html>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://d3js.org/d3.v5.min.js"></script>
-
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-</head>
-<body>
-
-<script>
-var ourData = [
 {"name": "Siegel",
  "value": 100,
  "publications":[
@@ -58,39 +33,4 @@ var ourData = [
 		"title":	["Applying CNL Authoring Support to Improve Machine Translation of Forum Data"],
 		"key":		["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-642-32612-7_1"]
 	}]
-}]
-
-function main (ourData){
-	var canvas = d3.select("body").append("svg")
-		.attr("width", 1000)
-		.attr("height", 1000);
-		
-	
-	var treemap = d3.layout.treemap()
-		.size([500,500])
-		.nodes(ourData);
-
-	var cells = canvas.selectALL(".cell")
-		.data(treemap)
-		.enter()
-		.append("g")
-		.attr("class", "cell")
-		
-	cells.append("rect")
-		.attr("x", 200)
-		.attr("y", 200)
-		.attr("width", 300)
-		.attr("height", 300)
-		.attr("fill", "purple");
-
-	console.log(treemap);
-			
 }
-
-console.log("Hallo");
-
-</script>
-<div id="canvas">
-</div>
-</body>
-</html>
