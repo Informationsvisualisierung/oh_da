@@ -12,84 +12,31 @@
 -->
 <!DOCTYPE html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://d3js.org/d3.v5.min.js"></script>
+
 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+		$(document).ready(function(){console.log("hiho");
+		var ourData = ["die daten"];
+		console.log(ourData);
+		d3.json("chocolate.json", function(ourData){
+				console.log(ourData);
+				console.log("hiho no 2");		
+				console.log(treemap);		
+			});
+			console.log("Hallo no 3");
+		});
+		console.log("Hallo Ende.");
+		</script>
 </head>
 <body>
 
-<script>
-var ourData = [
-{"name": "Siegel",
- "value": 100,
- "publications":[
-	{
-		"year":		["2005"],
-		"author":	["M. Bender","Melanie Siegel"],
-		"topics":	["440","493"],
-		"title":	["Implementing the Syntax of Japanese Numeral Classifiers"],
-		"type":		["BookChapter"],
-		"key":		["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-540-30211-7_66"]
-	},
-	{
-		"year":		["2005"],
-		"author":	["M. Bender","Melanie Siegel"],
-		"topics":	["440","493"],
-		"title":	["Implementing the Syntax of Japanese Numeral Classifiers"],
-		"type":		["BookChapter"],
-		"key":		["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-540-30211-7_66"]
-	},
-	{
-		"year":		["2012"],
-		"author":	["Sabine Lehmann","Ben Gottesman","Robert Grabowski","Mayo Kudo","Pepe Lo","Melanie Siegel","Frederik Fouvry"],
-		"topics":	["443","408"],
-		"type":		["BookChapter"],
-		"title":	["Applying CNL Authoring Support to Improve Machine Translation of Forum Data"],
-		"key":		["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-642-32612-7_1"]
-	},
-	{
-		"year":		["2012"],
-		"author":	["Sabine Lehmann","Ben Gottesman","Robert Grabowski","Mayo Kudo","Pepe Lo","Melanie Siegel","Frederik Fouvry"],
-		"topics":	["443","408"],
-		"type":		["BookChapter"],
-		"title":	["Applying CNL Authoring Support to Improve Machine Translation of Forum Data"],
-		"key":		["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-642-32612-7_1"]
-	}]
-}]
 
-function main (ourData){
-	var canvas = d3.select("body").append("svg")
-		.attr("width", 1000)
-		.attr("height", 1000);
-		
-	
-	var treemap = d3.layout.treemap()
-		.size([500,500])
-		.nodes(ourData);
-
-	var cells = canvas.selectALL(".cell")
-		.data(treemap)
-		.enter()
-		.append("g")
-		.attr("class", "cell")
-		
-	cells.append("rect")
-		.attr("x", 200)
-		.attr("y", 200)
-		.attr("width", 300)
-		.attr("height", 300)
-		.attr("fill", "purple");
-
-	console.log(treemap);
-			
-}
-
-console.log("Hallo");
-
-</script>
 <div id="canvas">
 </div>
 </body>
