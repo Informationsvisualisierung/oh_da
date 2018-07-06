@@ -11,7 +11,6 @@
 
 //http://api.vissights.net/databases - databases
 -->
-<!DOCTYPE html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>

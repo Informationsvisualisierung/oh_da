@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        * INDEX
+        * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+        * Gruppe: OH_DA 
+        * Hochschule Darmstadt, Sommersemester 2018
+        * Projekt: Visual Forecast Analytics
+    -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"> 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- CUSTOM -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>OH_DA</title>
+</head>
+<body>
+    <header>
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-light" style="background-color: #757273;">
+            <a class="navbar-brand" href="index.html">
+               <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
+            </a>
+            <form class="form-inline" action="" method="">
+                <span class="header-question">What are you looking for?</span>
+                <div class="form-check check-mr">
+                    <input class="form-check-input" type="radio" name="author-radio" id="author-header" value="authors" checked>
+                        <label class="form-check-label" for="author-header">Auhors</label>
+                    </div>
+                    <div class="form-check check-mr" style="margin: 0 30px 0 20px;">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="topic-header" value="topics">
+                        <label class="form-check-label" for="topic-header">Topics</label>
+                    </div>
+                <input class="form-control mr-md-12" id="authors-search" type="search" placeholder="Search" aria-label="Search">                           
+                <button class="btn btn-success" type="submit" onclick="submitHeader()"><i class="fas fa-search"></i></button>
+            </form>
+        </nav>
+    </header>
+    <main>
+        <div class="container-fluid">
+            <!-- CONTENT -->
+            <div class="row">
+                
+                <!-- FILTER & AUSWAHL-->
+
+                <!-- TOPCIS -->
+                <div class="col-12 col-sm-3 col-md-3 col-3 content-left card">
+                    <h2 class="filter-heading">Filter</h2>
+                    <div class="card-body">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
+                                <form action="" method="">
+                                    <label>Databases</label>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="springer" value="option1">
+                                        <label class="form-check-label" for="springer">Springer</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp" value="option2">
+                                        <label class="form-check-label" for="dblp">dblp</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="eg" value="option2">
+                                        <label class="form-check-label" for="eg">eg</label>
+                                    </div>
+                                    <!-- AUTOR MUSS ANGEZEIGT WERDEN -->
+                                    <div class="form-group">
+                                        <label for="authorsin" style="font-weight: 500 !important;">Authors in:</label>
+                                        <input type="text" class="form-control" id="authorsin" placeholder="Please type in an author">
+                                    </div>
+                                    <div id="authorin-badge">
+                                        <span class="badge badge-info"></span>
+                                        <span class="badge badge-info x-span" id="delete-author-in"> X </span>
+                                    </div>
+                                     <!-- AUTOR SOLL NICHT ANGEZEIGT WERDEN -->
+                                    <div class="form-group pdt-20">
+                                        <label for="authorsout" style="font-weight: 400;">Authors out</label>
+                                        <input type="text" class="form-control" id="authorsout" placeholder="Please type in an author">
+                                    </div> 
+                                    <div id="authorout-badge">
+                                        <span class="badge badge-info"></span>
+                                        <span class="badge badge-info x-span" id="delete-author-out"> X </span>
+                                    </div>
+                                    <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
+                                    <div class="range-year">
+                                        <label for="year-start">Start Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start"> 
+                                    </div>
+                                    <div class="range-year">
+                                        <label for="year-end">End Year</label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end"> 
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 tac">
+                                            <button class="btn btn-outline-success" type="submit" onclick="checkSideBar()">Visualize me!</button>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MAIN CONTENT  -->
+                <div class="col-8 content-right">
+                    <!-- BREADCRUMB TRAILS -->
+                    <div class="row">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"></li>
+                                <li class="breadcrumb-item"></li>
+                                <li class="breadcrumb-item"></li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- VISUALISIERUNGEN -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="vis-default">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DRAG AND DROP -->
+                    <div class="row content-drag drag-row">
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </main>
+    <footer>
+         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<!-- ***** SCRIPTS ***** -->
+
+    <!-- BOOTSTRAP -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- CUSTOM -->
+    <script src="src/vis_one.js"></script>
+    <script src="src/vis_two.js"></script>
+    <script src="src/vis_three.js"></script>
+
+    <script>
+        var x = document.getElementById("authors-search").value;
+
+        // Funktion für die Searchbar
+        function submitHeader(){
+
+        }
+
+        // Funktion für die Sidebar
+        function checkSideBar() {   
+
+            // Checken welcher Radio Button ausgewählt wurde
+            if (document.getElementById("springer").checked){
+                
+            }else if(document.getElementById("dblp").checked){
+                
+            }else if(document.getElementById("eg").checked){
+
+            }
+        }
+    
+    </script>
+
+</body>
+</html>
