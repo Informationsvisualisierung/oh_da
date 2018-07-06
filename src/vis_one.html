@@ -7,7 +7,6 @@
  * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
 *****/
 //https://github.com/d3/d3/wiki/tutorials - turoials d3
-//http://d3plus.org/examples/basic/9029130/ - TreeMap Example
 
 //http://api.vissights.net/databases - databases
 -->
@@ -22,43 +21,64 @@
 <body>
 
 <script>
-$(document).ready(function(){
-var ourData = [];
+var ourData = [{
+	"year":["2005"],
+	"author":["M. Bender","Melanie Siegel"],
+	"topics":{"440":0.3635,"493":0.545},
+	"title":["Implementing the Syntax of Japanese Numeral Classifiers"],
+	"type":["BookChapter"],
+	"key":["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-540-30211-7_66"]},
+{
+	"year":["2005"],
+	"author":["M. Bender","Melanie Siegel"],
+	"topics":{"440":0.3635,"493":0.545},
+	"title":["Implementing the Syntax of Japanese Numeral Classifiers"],
+	"type":["BookChapter"],
+	"key":["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-540-30211-7_66"]},
+{
+	"year":["2012"],
+	"author":["Sabine Lehmann","Ben Gottesman","Robert Grabowski","Mayo Kudo","Pepe Lo","Melanie Siegel","Frederik Fouvry"],
+	"topics":{"443":0.1054,"408":0.8416},
+	"type":["BookChapter"],
+	"title":["Applying CNL Authoring Support to Improve Machine Translation of Forum Data"],
+	"key":["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-642-32612-7_1"]},
+{
+	"year":["2012"],
+	"author":["Sabine Lehmann","Ben Gottesman","Robert Grabowski","Mayo Kudo","Pepe Lo","Melanie Siegel","Frederik Fouvry"],
+	"topics":{"443":0.1054,"408":0.8416},"type":["BookChapter"],
+	"title":["Applying CNL Authoring Support to Improve Machine Translation of Forum Data"],
+	"key":["http:\/\/lod.springer.com\/data\/bookchapter\/978-3-642-32612-7_1"]
+}]
 
-$.ajax({
-                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/eg/topics",
-				type: 'GET',
-				success: function (topics){
-					//var array_test =[{"name": (topics[0].phrase[0][0])},{"zahl": (topics[0].phrase[0][1])}];
-					ourData.push(topics[0].phrase[0][1]);
-					console.log(ourData)
-					var placement = "#canvas",
-						width = 400,
-						height =400;
-
-					var svg = d3.select(placement).append("svg")
-						.attr("width", width)
-						.attr("height", height)
-						.append("g");
-	
-					svg.append("circle").data(ourData)
-						.style("fill", "purple")
-						.attr("cx", function (d){
-							return d*150;})
-						.attr("cy", function(d){
-							return d*150;})
-						.attr("r", function(d){
-							return d*150;
-						});
-						
-				}
-});
-//function(d) greift auf die daten zu, dabei wird d in der function nicht weiter spezifiziert da wir ohnehin nur eine Zahl als Data haben
-// hätten wir mehrere Daten, jeweils für die x und y achse könnte man in der function direkt darauf zugreifen indem man "return d.x*100) schreibt
-
+function main (ourData){
+	var canvas = d3.select("body").append("svg")
+		.attr("width", 500)
+		.attr("height", 500);
 		
+	
+	var treemap = d3.layout.treemap()
+		.size([500,500])
+		.nodes(ourData);
+		
+	var cells = canvas.selectALL(".cell")
+		.data(treemap)
+		.enter()
+		.append("g")
+		.attr("class", "cell")
+		
+	cells.append("rect")
+		.attr("x", 200)
+		.attr("y", 200)
+		.attr("width", 300)
+		.attr("height", 300)
+		.attr("fill", "purple");
+			
+}
+
+
+console.log (ourData);
 console.log("Hallo");
-});
+
 </script>
 <div id="canvas">
 </div>
