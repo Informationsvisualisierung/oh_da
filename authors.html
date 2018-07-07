@@ -37,7 +37,7 @@
                         <input class="form-check-input" type="radio" name="exampleRadios" id="topic-header" value="topics">
                         <label class="form-check-label" for="topic-header">Topics</label>
                     </div>
-                <input class="form-control mr-md-12" id="authors-search" type="search" placeholder="Search" aria-label="Search">                           
+                <input class="form-control mr-md-12" id="authors-search" name="search-author" type="search" placeholder="Search" aria-label="Search">                           
                 <button class="btn btn-success" type="submit" onclick="submitHeader()"><i class="fas fa-search"></i></button>
             </form>
         </nav>
@@ -89,12 +89,12 @@
                                     </div>
                                     <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
                                     <div class="range-year">
-                                        <label for="year-start">Start Year</label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start"> 
+                                        <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start" value="2000"> 
                                     </div>
                                     <div class="range-year">
-                                        <label for="year-end">End Year</label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end"> 
+                                            <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end" value="2000"> 
                                     </div>
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
@@ -112,7 +112,7 @@
                     <div class="row">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"></li>
+                                <li class="breadcrumb-item" id="result"></li>
                                 <li class="breadcrumb-item"></li>
                                 <li class="breadcrumb-item"></li>
                             </ol>
@@ -168,9 +168,44 @@
     <script src="src/vis_one.js"></script>
     <script src="src/vis_two.js"></script>
     <script src="src/vis_three.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $( "#searchForm" ).submit(function( event ) {
+                event.preventDefault();
 
+                // Get some values from elements on the page:
+                var $form = $( this ),
+                term = $form.find( "input[name='search-author']" ).val(),
+                url = $form.attr( "action" );
+
+                // Send the data using post
+                var posting = $.post( url, { s: term } );
+
+                // Put the results in a div
+                posting.done(function( data ) {
+                var content = $( data ).find( "#content" );
+                $( "#result" ).empty().append( content );
+                });
+            });
+           $('#year-start').on('input change', function() {
+              var element = $('#year-start'),
+              value = element.val(),
+              step = 1;
+              element.attr('step', step);
+              $('#year-one').text(value);
+           });
+           $('#year-end').on('input change', function() {
+              var element = $('#year-end'),
+              value = element.val(),
+              step = 1;
+              element.attr('step', step);
+              $('#year-two').text(value);
+           });
+        });
+    </script>
+    
     <script>
-        var x = document.getElementById("authors-search").value;
+        // var x = document.getElementById("authors-search").value;
 
         // Funktion für die Searchbar
         function submitHeader(){
@@ -189,7 +224,8 @@
 
             }
         }
-    
+        
+        // Funktion für die 
     </script>
 
 </body>
