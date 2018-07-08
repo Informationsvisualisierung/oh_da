@@ -27,26 +27,25 @@
             <a class="navbar-brand" href="index.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
-            <form class="form-inline" action="" method="">
-                <span class="header-question">What are you looking for?</span>
+            <form class="form-inline" action="" method="" id="author-search-bar">
+                <span style="margin-right: 10px;">What are you looking for?</span>
                 <div class="form-check check-mr">
-                    <input class="form-check-input" type="radio" name="author-radio" id="author-header" value="authors" checked>
+                    <input class="form-check-input" type="radio" name="header-radio" id="author-header" value="authors">
                         <label class="form-check-label" for="author-header">Auhors</label>
                     </div>
                     <div class="form-check check-mr" style="margin: 0 30px 0 20px;">
-                        <input class="form-check-input" type="radio" name="exampleRadios" id="topic-header" value="topics">
+                        <input class="form-check-input" type="radio" name="header-radio" id="topic-header" value="topics">
                         <label class="form-check-label" for="topic-header">Topics</label>
                     </div>
-                <input class="form-control mr-md-12" id="authors-search" name="search-author" type="search" placeholder="Search" aria-label="Search">                           
-                <button class="btn btn-success" type="submit" onclick="submitHeader()"><i class="fas fa-search"></i></button>
+                <input class="form-control mr-md-12" id="authors-search" name="search-author" value="" type="search" placeholder="Search" aria-label="Search">                           
+                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </nav>
     </header>
     <main>
         <div class="container-fluid">
             <!-- CONTENT -->
-            <div class="row">
-                
+            <div class="row">      
                 <!-- FILTER & AUSWAHL-->
 
                 <!-- TOPCIS -->
@@ -55,37 +54,39 @@
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
-                                <form action="" method="">
+                                <form id="searchBar" action="" method="">
                                     <label>Databases</label>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="springer" value="option1">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="springer_radio" value="Springer">
                                         <label class="form-check-label" for="springer">Springer</label>
                                     </div>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp" value="option2">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp_radio" value="dblp">
                                         <label class="form-check-label" for="dblp">dblp</label>
                                     </div>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="eg" value="option2">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="eg_radio" value="eg">
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
                                     <!-- AUTOR MUSS ANGEZEIGT WERDEN -->
-                                    <div class="form-group">
+                                    <div class="form-group" id="authorin-badge">
                                         <label for="authorsin" style="font-weight: 500 !important;">Authors in:</label>
-                                        <input type="text" class="form-control" id="authorsin" placeholder="Please type in an author">
-                                    </div>
-                                    <div id="authorin-badge">
-                                        <span class="badge badge-info"></span>
-                                        <span class="badge badge-info x-span" id="delete-author-in"> X </span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-in" placeholder="Please type in an author" value="">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-in">+</button>
+                                            </div>
+                                        </div>
                                     </div>
                                      <!-- AUTOR SOLL NICHT ANGEZEIGT WERDEN -->
-                                    <div class="form-group pdt-20">
-                                        <label for="authorsout" style="font-weight: 400;">Authors out</label>
-                                        <input type="text" class="form-control" id="authorsout" placeholder="Please type in an author">
-                                    </div> 
-                                    <div id="authorout-badge">
-                                        <span class="badge badge-info"></span>
-                                        <span class="badge badge-info x-span" id="delete-author-out"> X </span>
+                                    <div class="form-group" id="authorout-badge">
+                                        <label for="authors-out" style="font-weight: 500 !important;">Authors out:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-out" placeholder="Please type in an author" value="">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-out">+</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
                                     <div class="range-year">
@@ -98,7 +99,7 @@
                                     </div>
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
-                                            <button class="btn btn-outline-success" type="submit" onclick="checkSideBar()">Visualize me!</button>
+                                            <button class="btn btn-outline-success" id="vis-btn" type="submit">Visualize me!</button>
                                         </div>
                                     </div>  
                                 </form>
@@ -108,15 +109,9 @@
                 </div>
                 <!-- MAIN CONTENT  -->
                 <div class="col-8 content-right">
-                    <!-- BREADCRUMB TRAILS -->
+                    <!-- "BREADCRUMB TRAILS" -->
                     <div class="row">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item" id="result"></li>
-                                <li class="breadcrumb-item"></li>
-                                <li class="breadcrumb-item"></li>
-                            </ol>
-                        </nav>
+                        <span style="margin: 10px 5px 0 0;" id="search-author">You are searching for this author: </span>
                     </div>
                     <!-- VISUALISIERUNGEN -->
                     <div class="row">
@@ -163,70 +158,124 @@
     
     <!-- D3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
-
-    <!-- CUSTOM -->
-    <script src="src/vis_one.js"></script>
-    <script src="src/vis_two.js"></script>
-    <script src="src/vis_three.js"></script>
     <script type="text/javascript">
+        
         $(function() {
-            $( "#searchForm" ).submit(function( event ) {
+
+            // ********** SIDEBAR AUTHORS ***************
+
+
+            // get value from radio buttons (which database is selected)
+            $('input:radio').change(function(){
+                var radioSidebarValue = $("form input[name='database-radio']:checked").val();
+                //send value
+            });
+
+            //get input from authors out
+            $("#add-badge-out").click(function(){
+                // count id up with if? if not we can just filter 1 author each
+                var tag = $("#authors-out").val();
+                $("#authorout-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-out'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-out'> X </span>");
+                
+            });
+            
+             //get input from authors in
+            $("#add-badge-in").click(function(){
+                // count id up with if? if not we can just filter 1 author each
+                var tag = $("#authors-in").val();
+                $("#authorin-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-in'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-in'> X </span>");
+            });
+            
+            // delete if X button is clicked (authors in)
+            $("#delete-author-in").click(function(){
+                $("#left-badge-in").remove();
+                $("#delete-author-in").remove();
+            });
+
+            // delete if X button is clicked (authors out)
+            $("#delete-author-out").click(function(){
+                $("#left-badge-out").remove();
+                $("#delete-author-out").remove();
+            });
+
+            // set steps for range input
+            $('#year-start').on('input change', function() {
+                var element = $('#year-start'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-one').text(value);
+            });
+            $('#year-end').on('input change', function() {
+                var element = $('#year-end'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-two').text(value);
+            });
+            
+            // Sidebar on SUBMIT --> get the data and send it via POST method
+            $( "#sideBar" ).submit(function( event ) {
+
+                // get the data from radio buttons first 
+                var springerRadio   =  $("#springer-radio").checked;
+                var dblpRadio       =  $("#dblp-radio").checked;
+                var egRadio         =  $("#eg-radio").checked;
+                if(springerRadio = true){
+                    // return springer value and send it
+                    return($this);
+                }else if(dblpRadio = true){
+                    // return dblp value and send it
+                    return($this);
+                }else{
+                    // return eg value and send it
+                    return($this);
+                }
+                
+                // get the data from the tags/badges (authors in and authors out) second
+                // go through for thingy for each author they put it and save it in an array to send it?
+                // var authors-in-arr = $(#left-badge-in).val();
+
+                // get the data from the year-range (year-start and year-end) third 
+                var yearStart = $("year-start").val();
+                var yearEnd = $("year-end").val();
+
+                // send the values to the next thingy
+            });
+
+            // ************** SEARCH BAR AUTHORS ******/
+            $( "#author-search-bar" ).submit(function( event ) {
                 event.preventDefault();
 
-                // Get some values from elements on the page:
-                var $form = $( this ),
-                term = $form.find( "input[name='search-author']" ).val(),
-                url = $form.attr( "action" );
+                // check if topics or authors is checked and save value from search input field
+                var authorResult = $("#author-header").checked;
+                var topicResult = $("#topic-header").checked;
+                var searchResult = $("#authors-search").val();
 
-                // Send the data using post
-                var posting = $.post( url, { s: term } );
+                
+                // url = $form.attr( "action" );
+                $("#search-author").append("<span  style='padding-left: 10px;'" + searchResult +  "</span>");
+                // check if topics is true, and if it is > redirect to topics page
+                // if its not true then display the author name the person was searching for
 
-                // Put the results in a div
-                posting.done(function( data ) {
-                var content = $( data ).find( "#content" );
-                $( "#result" ).empty().append( content );
+                $('input:radio').change(function(){
+                    var radioSidebarValue = $("form input[name='header-radio']:checked").val();
+
+                    if (radioSidebarValue = "topics"){
+                        window.location = 'topics.html';
+                    }
+                    if (radioSideBarValue = "authors"){
+                        $("#search-author").append("<span style='padding-left: 10px;'" + searchResult +  "</span>");
+                        alert(searchResult);
+                    }
                 });
-            });
-           $('#year-start').on('input change', function() {
-              var element = $('#year-start'),
-              value = element.val(),
-              step = 1;
-              element.attr('step', step);
-              $('#year-one').text(value);
-           });
-           $('#year-end').on('input change', function() {
-              var element = $('#year-end'),
-              value = element.val(),
-              step = 1;
-              element.attr('step', step);
-              $('#year-two').text(value);
-           });
+
+                $('svg').remove();
+                apiCall(searchValue);
+                // Send the data using post
+                // var posting = $.post( url, { s: term } );
+            });          
         });
     </script>
-    
-    <script>
-        // var x = document.getElementById("authors-search").value;
-
-        // Funktion für die Searchbar
-        function submitHeader(){
-
-        }
-
-        // Funktion für die Sidebar
-        function checkSideBar() {   
-
-            // Checken welcher Radio Button ausgewählt wurde
-            if (document.getElementById("springer").checked){
-                
-            }else if(document.getElementById("dblp").checked){
-                
-            }else if(document.getElementById("eg").checked){
-
-            }
-        }
-        
-        // Funktion für die 
-    </script>
-
 </body>
 </html>
