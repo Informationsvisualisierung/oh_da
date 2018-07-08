@@ -12,31 +12,70 @@
 -->
 <!DOCTYPE html>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script>
-		$(document).ready(function(){console.log("hiho");
-		var ourData = ["die daten"];
-		console.log(ourData);
-		d3.json("chocolate.json", function(ourData){
-				console.log(ourData);
-				console.log("hiho no 2");		
-				console.log(treemap);		
-			});
-			console.log("Hallo no 3");
-		});
-		console.log("Hallo Ende.");
-		</script>
 </head>
 <body>
 
+<script>
 
+$(document).ready(function(){
+$.ajax({
+                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",
+				type: 'GET',
+				success: function (person){
+					//wir brauchen: 1 array mit topics + wie oft sie vorkommen und 2 array co-autoren und wie oft sie vorkommen, damit splitten wir die treemap in a) topics und quanitity und b) co-athours und quantity
+					var name = [];
+					var topics = [];		
+					for (var i = 0; i < person.length; i++) {
+						if (person[i].author != "Melanie Siegel"){ //platzhalter, hier vll in zukunft das was in der suchleiste steht einfügen
+							name.push({ name:(person[i].author)});
+						}
+					}
+					for (var i = 0; i < person.length; i++) {
+							topics.push({topicS: person[i].topics});
+					}
+					console.log(name);
+					console.log(topics);
+					}						
+});
+
+var canvas = d3.select("body").append("svg")
+		.attr("width", 1000)
+		.attr("height", 1000);
+
+function niceTreeMap (name){
+
+	//hier muss ich nur wissen warum ich im browser nichts, von da an sehe ich keine probleme für die treemap
+	var treemap = d3.layout.treemap()
+		.size([500,500])
+		.nodes(name);
+		
+	var cells = canvas.selectALL(".cell")
+		.data(treemap)
+		.enter()
+		.append("g")
+		.attr("class", "cell")
+		
+	cells.append("rect").name
+		.attr("x", 200)
+		.attr("y", 200)
+		.attr("width", 300)
+		.attr("height", 300)
+		.attr("fill", "#4C0B5F");
+		
+	d3.selectAll("input")
+      .data([sumBySize, sumByCount], function(d) { return d ? d.name : this.value; })	
+	
+console.log(treemap);	
+};
+niceTreeMap(name);
+console.log("Hallo");
+});
+</script>
 <div id="canvas">
 </div>
 </body>

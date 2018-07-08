@@ -11,6 +11,7 @@
 
 //http://api.vissights.net/databases - databases
 -->
+<!DOCTYPE html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -28,7 +29,6 @@ $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/eg/topics",
 				type: 'GET',
 				success: function (topics){
-					//var array_test =[{"name": (topics[0].phrase[0][0])},{"zahl": (topics[0].phrase[0][1])}];
 					ourData.push(topics[0].phrase[0][1]);
 					console.log(ourData)
 					var placement = "#canvas",
@@ -100,3 +100,30 @@ console.log("Hallo");
 </div>
 </body>
 </html>
+
+function niceTreeMap (name){
+
+	var color = d3.scale.category20b();
+	
+	var treemap = d3.layout.treemap()
+		.size([500,500])
+		.nodes(name);
+		
+	var cells = canvas.selectALL(".cell")
+		.data(treemap)
+		.enter()
+		.append("g")
+		.attr("class", "cell")
+		
+	cells.append("rect")
+		.attr("x", 200)
+		.attr("y", 200)
+		.attr("width", 300)
+		.attr("height", 300)
+		.attr("fill", "purple");
+		
+	d3.selectAll("input")
+      .data([sumBySize, sumByCount], function(d) { return d ? d.name : this.value; })	
+	
+console.log(treemap);	
+};
