@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <html lang="en">
 <head>
@@ -20,93 +20,149 @@
 <body>
 
 <script>
-$(document).ready(function(){
-$.ajax({
-                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",
-				type: 'GET',
-				success: function (person){
-					//wir brauchen: 1 array mit topics + wie oft sie vorkommen und 2 array co-autoren 
-					//und wie oft sie vorkommen, damit splitten wir die treemap in a) topics und quanitity und b) co-athours und quantity
-					var name = [];
-					var name2 = [];
-					var topicse = [];
-					var topicse2 = [];		
-					for (var i = 0; i < person.length; i++) {
-						if (person[i].author != "Melanie Siegel"){ //platzhalter, hier vll in zukunft das was in der suchleiste steht einfügen
-							name.push({ name:(person[i].author)});
-						}
-					}
-					for (var i = 0; i < person.length; i++) {
-							topicse.push({topicS: person[i].topics}, {topicSum: Object.keys(person[i].topics).length});
-							
-					}
-					const singleArrTopics = topicse.reduce((total, amount) => {
-						amount.topics.forEach( topics => {
-							total.push(topics);
-						})
-						return total;
-					}, [])
-						
-					var resTopic = topicse.reduce(function(result, topicS){
-						for (var key in topicS){
-							if (topicS.hasOwnProperty(key)){
-								result[key] = topicS[key];
-							}
-						}
-					return result;
-					}, {});
-					topicse.sort();
-					//console.log(name);
-					console.log(topicse);
-					console.log(singleArrTopic);
-					console.log(resTopic);
-					}						
-});
-//var c10 = d3.scale.category20b(); funktioniert nicht, ka warum
+function count(countElement, array){
+	var i = 0;
+	array.forEach(function (element, index){
+		if (element === countElement){
+			i++;
+		}
+	});
+	return i;
+}
+function unique(array){
+	var uniqueElements = [];
+	array.forEach( function (element, index){
+		if (uniqueElements.includes(element)){
+		}
+		else{
+		uniqueElements.push(element);
+		}		
+	});
+	return uniqueElements;
+}
+function flatTopics (publications){
+	var _flatTopics = [];
+		publications.forEach(function(publication, index){
+			Object.keys(publication.topics).forEach(function (topic, index){
+				_flatTopics.push(topic);
+			});		
+		});
+	return _flatTopics
+}
+function weightedTopics (publications){
+	var _weightedTopics = [];
+	var _flatTopics = flatTopics(publications);
+	var _uniqueTopics = unique(_flatTopics);
+	_uniqueTopics.forEach(function (uniqueTopic, index){
+		_weightedTopics.push({name: uniqueTopic, value: count(uniqueTopic, _flatTopics)});
+	});
+	return _weightedTopics;
+}
+function flatAuthors (publications){
+	var _flatAuthors = [];
+		publications.forEach(function(publication, index){
+			Object.keys(publication.author).forEach(function (authors, index){
+				_flatAuthors.push(authors);
+			});		
+		});
+	return _flatAuthors
+}
 
-function niceTreeMap (topicse){
-		
-	//hier muss ich nur wissen warum ich im browser nichts sehe
-	var svg = d3.select("svg"),
-		width = +svg.attr("width"),
-		height = +svg.attr("height");
-		
+function weightedAuthors (publications){
+	var _weightedAuthors = [];
+	var _flatAuthors = flatAuthors(publications);
+	var _uniqueAuthors = unique(_flatAuthors);
+	_uniqueAuthors.forEach(function (uniqueAuthors, index){
+		_weightedAuthors.push({name: uniqueAuthors, value: count(uniqueAuthors, _flatAuthors)});
+	});
+	return _weightedAuthors;
+}
+function sumByCount(d){
+	return d.value;
+}
+function niceTreeMap (topics){
+	var color = d3.scaleSequential()
+           //.range(["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", 
+			//"#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]);	
+			 .domain([0,20])
+			 .interpolator(d3.interpolateCool);
+			 
 	var canvas = d3.select("body").append("svg")
 		.attr("width", 1000)
-		.attr("height", 1000);
+		.attr("height", 1000)
 		
-	var fader = function(color) { 
-			return d3.interpolateRgb(color, "#fff")(0.2); 
-			},
-		color = d3.scaleOrdinal(d3.schemeCategory20.map(fader)),
-		format = d3.format(",d");
-		
+	$("svg").css({top: 200, left: 200, position:'absolute'});
+	
 	var treemap = d3.treemap()
 		.tile(d3.treemapResquarify)
-		.size([width, height])
-		.round(true)
-		.paddingInner(1);
+		.size([500,500])
 		
-	var cells = canvas.selectALL(".cell")
-		.data(treemap)
-		.enter()
-		.append("g")
-		.attr("class", "cell")
 		
-	cells.append("rect")
-		.attr("x", 200)
-		.attr("y", 200)
-		.attr("width", 300)
-		.attr("height", 300)
-		.attr("fill", "#4C0B5F");
+	 var root = d3.hierarchy(topics)
+      .sum(sumByCount)
+      .sort(function(a, b) { return b.value - a.value });	
 		
-	d3.selectAll("input")
-      .data([sumBySize, sumByCount], function(d) { return d ? d.name : this.value; })	
+	//console.log(treemap);
 	
-console.log(treemap);	
+	treemap(root);
+
+	var cell = canvas.selectAll("g")
+		.data(root.leaves())
+		.enter().append("g")
+		.attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+		
+	cell.append("rect")
+      .attr("id", function(d) { return d.data.id; })
+      .attr("width", function(d) { return d.x1 - d.x0; })
+      .attr("height", function(d) { return d.y1 - d.y0; })
+	  .attr("fill", function (d) { return color(d.data.name)})
+	  .attr("stroke-width", 3)
+      .attr("stroke", "black");
+	  
+	cell.append("text")
+		.selectAll("tspan")
+		.data(function(d) { 
+			console.log(d);
+			return d.data.name;
+		})
+		.enter().append("tspan")
+		.attr("x", 4)
+		.attr("y", function(d, i) { return 13 + i * 10; })
+	
+	.text(function(d) { return d; });  
+	
+	canvas.append("text")
+        .attr("x", 700)             
+        .attr("y", 700)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Ich bin ein toller Text und soll eigentlich über der Treemap stehen. LOL");
 };
-niceTreeMap();
+
+$(document).ready(function(){
+$.ajax({
+                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
+				type: 'GET',
+				success: function (publications){
+					//wir brauchen: 1 array mit topics + wie oft sie vorkommen und 2 array co-autoren 
+					//und wie oft sie vorkommen, damit splitten wir die treemap in a) topics und quanitity und b) co-athours und quantity
+					weightedAuthors(publications);
+					_weightedTopics = weightedTopics(publications);
+					_weightedTopics.sort(function(a,b){
+						return b.value - a.value;
+					});
+					_weightedAuthors = weightedAuthors(publications);
+					_weightedTopics.length = 20;
+					niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});
+					//niceTreeMap({topic: "", topicCount: 0, children: _weightedAuthors});
+					//console.log(weightedTopics(publications));
+					//console.log(name);
+					}						
+});
+
 console.log("Hallo");
+
 });
 </script>
 <div id="canvas">
