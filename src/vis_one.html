@@ -7,7 +7,6 @@
  * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
 *****/
 //https://github.com/d3/d3/wiki/tutorials - turoials d3
-
 //http://api.vissights.net/databases - databases
 -->
 <!DOCTYPE html>
@@ -21,13 +20,13 @@
 <body>
 
 <script>
-
 $(document).ready(function(){
 $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",
 				type: 'GET',
 				success: function (person){
-					//wir brauchen: 1 array mit topics + wie oft sie vorkommen und 2 array co-autoren und wie oft sie vorkommen, damit splitten wir die treemap in a) topics und quanitity und b) co-athours und quantity
+					//wir brauchen: 1 array mit topics + wie oft sie vorkommen und 2 array co-autoren 
+					//und wie oft sie vorkommen, damit splitten wir die treemap in a) topics und quanitity und b) co-athours und quantity
 					var name = [];
 					var name2 = [];
 					var topicse = [];
@@ -39,29 +38,27 @@ $.ajax({
 					}
 					for (var i = 0; i < person.length; i++) {
 							topicse.push({topicS: person[i].topics}, {topicSum: Object.keys(person[i].topics).length});
+							
 					}
-					for (var i = 0; i < person.length; i++) {
-               			for (var j = 0; j < topicse.length; j++) {
-
-                   			if (topicse[j].topics == parseInt(person[i].topics)) {
-                       			topicse[j].topicSum += person[i].topics.length;
-
-                   			}
-               			}
-          	 		}	
+					var resTopic = topicse.reduce(function(result, topicS){
+						for (var key in topicS){
+							if (topicS.hasOwnProperty(key)){
+								result[key] = topicS[key];
+							}
+						}
+					return result;
+					}, {});
+					topicse.sort();
 					console.log(name);
 					console.log(topicse);
+					console.log(resTopic);
 					}						
 });
-
 //var c10 = d3.scale.category20b(); funktioniert nicht, ka warum
-
 var canvas = d3.select("body").append("svg")
 		.attr("width", 1000)
 		.attr("height", 1000);
-
 function niceTreeMap (topicse){
-
 	//hier muss ich nur wissen warum ich im browser nichts sehe
 	var treemap = d3.layout.treemap()
 		.size([500,500])
@@ -87,11 +84,9 @@ console.log(treemap);
 };
 niceTreeMap(name);
 console.log("Hallo");
-
 });
 </script>
 <div id="canvas">
 </div>
 </body>
 </html>
-
