@@ -40,6 +40,13 @@ $.ajax({
 							topicse.push({topicS: person[i].topics}, {topicSum: Object.keys(person[i].topics).length});
 							
 					}
+					const singleArrTopics = topicse.reduce((total, amount) => {
+						amount.topics.forEach( topics => {
+							total.push(topics);
+						})
+						return total;
+					}, [])
+						
 					var resTopic = topicse.reduce(function(result, topicS){
 						for (var key in topicS){
 							if (topicS.hasOwnProperty(key)){
@@ -49,20 +56,36 @@ $.ajax({
 					return result;
 					}, {});
 					topicse.sort();
-					console.log(name);
+					//console.log(name);
 					console.log(topicse);
+					console.log(singleArrTopic);
 					console.log(resTopic);
 					}						
 });
 //var c10 = d3.scale.category20b(); funktioniert nicht, ka warum
-var canvas = d3.select("body").append("svg")
+
+function niceTreeMap (topicse){
+		
+	//hier muss ich nur wissen warum ich im browser nichts sehe
+	var svg = d3.select("svg"),
+		width = +svg.attr("width"),
+		height = +svg.attr("height");
+		
+	var canvas = d3.select("body").append("svg")
 		.attr("width", 1000)
 		.attr("height", 1000);
-function niceTreeMap (topicse){
-	//hier muss ich nur wissen warum ich im browser nichts sehe
-	var treemap = d3.layout.treemap()
-		.size([500,500])
-		.nodes(topicse);
+		
+	var fader = function(color) { 
+			return d3.interpolateRgb(color, "#fff")(0.2); 
+			},
+		color = d3.scaleOrdinal(d3.schemeCategory20.map(fader)),
+		format = d3.format(",d");
+		
+	var treemap = d3.treemap()
+		.tile(d3.treemapResquarify)
+		.size([width, height])
+		.round(true)
+		.paddingInner(1);
 		
 	var cells = canvas.selectALL(".cell")
 		.data(treemap)
@@ -70,7 +93,7 @@ function niceTreeMap (topicse){
 		.append("g")
 		.attr("class", "cell")
 		
-	cells.append("rect").topicse
+	cells.append("rect")
 		.attr("x", 200)
 		.attr("y", 200)
 		.attr("width", 300)
@@ -82,7 +105,7 @@ function niceTreeMap (topicse){
 	
 console.log(treemap);	
 };
-niceTreeMap(name);
+niceTreeMap();
 console.log("Hallo");
 });
 </script>
