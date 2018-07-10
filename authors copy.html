@@ -23,7 +23,7 @@
 <body>
     <header>
         <!-- NAVBAR -->
-        <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
+        <nav class="navbar navbar-light" style="background-color: #757273;">
             <a class="navbar-brand" href="index.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
@@ -38,7 +38,7 @@
                         <label class="form-check-label" for="topic-header">Topics</label>
                     </div>
                 <input class="form-control mr-md-12" id="authors-search" name="search-author" value="" type="search" placeholder="Search" aria-label="Search">                           
-                <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
+                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </nav>
     </header>
@@ -68,15 +68,34 @@
                                         <input class="form-check-input" type="radio" name="database-radio" id="eg_radio" value="eg">
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
-                                    
+                                    <!-- AUTOR MUSS ANGEZEIGT WERDEN -->
+                                    <div class="form-group" id="authorin-badge">
+                                        <label for="authorsin" style="font-weight: 500 !important;">Authors in:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-in" placeholder="Please type in an author" value="">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-in">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <!-- AUTOR SOLL NICHT ANGEZEIGT WERDEN -->
+                                    <div class="form-group" id="authorout-badge">
+                                        <label for="authors-out" style="font-weight: 500 !important;">Authors out:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-out" placeholder="Please type in an author" value="">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-out">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
                                     <div class="range-year">
                                         <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start" name="yearStart" value="2000"> 
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start" value="2000"> 
                                     </div>
                                     <div class="range-year">
                                             <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end" name="yearEnd" value="2000"> 
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end" value="2000"> 
                                     </div>
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
@@ -141,7 +160,37 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script type="text/javascript">
         
-        $(document).ready(function() {
+        $(function() {
+
+            // ********** SIDEBAR AUTHORS ***************
+
+            //get input from authors out
+            $("#add-badge-out").click(function(){
+                // count id up with if? if not we can just filter 1 author each
+                var tag = $("#authors-out").val();
+                $("#authorout-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-out'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-out'> X </span>");
+                
+            });
+            
+             //get input from authors in
+            $("#add-badge-in").click(function(){
+                // count id up with if? if not we can just filter 1 author each
+                var tag = $("#authors-in").val();
+                $("#authorin-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-in'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-in'> X </span>");
+            });
+            
+            // delete if X button is clicked (authors in)
+            $("#delete-author-in").click(function(){
+                $("#left-badge-in").remove();
+                $("#delete-author-in").remove();
+            });
+
+            // delete if X button is clicked (authors out)
+            $("#delete-author-out").click(function(){
+                $("#left-badge-out").remove();
+                $("#delete-author-out").remove();
+            });
+
             // set steps for range input
             $('#year-start').on('input change', function() {
                 var element = $('#year-start'),
@@ -157,41 +206,72 @@
                 element.attr('step', step);
                 $('#year-two').text(value);
             });
-
-
+            
             // Sidebar on SUBMIT --> get the data and send it via POST method
-            $( "#vis-btn" ).click(function(){
-                var radioSidebarValue = $("input[name='database-radio']:checked").val();
-                var yearStart         = $("input[name='yearStart']").val(); 
-                var yearStart         = $("input[name='yearEnd']").val(); 
+            $( "#sideBar" ).submit(function( event ) {
+
+                // get the data from radio buttons first 
+                var springerRadio   =  $("#springer-radio").checked;
+                var dblpRadio       =  $("#dblp-radio").checked;
+                var egRadio         =  $("#eg-radio").checked;
+                if(springerRadio = true){
+                    // return springer value and send it
+                    return($this);
+                }else if(dblpRadio = true){
+                    // return dblp value and send it
+                    return($this);
+                }else{
+                    // return eg value and send it
+                    return($this);
+                }
+                $('input:radio').change(function(){
+                    var radioSidebarValue = $("form input[name='database-radio']:checked").val();
+
+                });
+                // get the data from the tags/badges (authors in and authors out) second
+                // go through for thingy for each author they put it and save it in an array to send it?
+                // var authors-in-arr = $(#left-badge-in).val();
+
+                // get the data from the year-range (year-start and year-end) third 
+                var yearStart = $("year-start").val();
+                var yearEnd = $("year-end").val();
+
+                // send the values to the next thingy
             });
 
-            // ************** SEARCH BAR AUTHORS **********/
+            // ************** SEARCH BAR AUTHORS ******/
+            $( "#author-search-bar" ).submit(function( event ) {
+                event.preventDefault();
 
-            $("#search-button").click(function(){
-            
-                var headerRadio   = $("input[name='header-radio']:checked").val();
-                var searchResult  = $("#authors-search").val();
+                // check if topics or authors is checked and save value from search input field
+                var authorResult = $("#author-header").checked;
+                var topicResult = $("#topic-header").checked;
+                var searchResult = $("#authors-search").val();
+
                 
-                alert(searchResult + " " + headerRadio);
-                
-                if(headerResul = true){
-                    alert(searchResult);
-                    window.locate = "authors.html";
-                    // $("#after-nav").append("<p>" + searchResult +  "</p>");
-                }else{
-                    alert(searchResult);
-                    window.locate = "topics.html";
-                }
-                //function apiCall(searchValue) {
-                //d3.json("http://api.vissights.net/semaservice-web-api-vissights/v1/person?db=dblp&name=" + searchResult +"" , 
-                  //  function (Author) {
-                  //      var data = [];
-                  //      console.log(Topics);
-                  //  });               
-                // }
-            }); 
-        }); 
+                // url = $form.attr( "action" );
+                $("#search-author").append("<span  style='padding-left: 10px;'" + searchResult +  "</span>");
+                // check if topics is true, and if it is > redirect to topics page
+                // if its not true then display the author name the person was searching for
+
+                $('input:radio').change(function(){
+                    var radioSidebarValue = $("form input[name='header-radio']:checked").val();
+
+                    if (radioSidebarValue = "topics"){
+                        window.location = 'topics.html';
+                    }
+                    if (radioSideBarValue = "authors"){
+                        $("#search-author").append("<span style='padding-left: 10px;'" + searchResult +  "</span>");
+                        alert(searchResult);
+                    }
+                });
+
+                $('svg').remove();
+                apiCall(searchValue);
+                // Send the data using post
+                // var posting = $.post( url, { s: term } );
+            });          
+        });
     </script>
 </body>
 </html>
