@@ -65,7 +65,10 @@
             $("#search-button").click(function(){
                 // value for which author we are searching
                 var searchResult  = $("#authors-search").val();
-                alert(searchResult);
+
+                // für die Weitergabe an den API CALL 
+                // $('svg').remove();
+                // apiCall(searchResult);
             }); 
         }); 
 
@@ -199,7 +202,14 @@
                     .style("font-size", "30px") 
                     .text("TITLE 2");
     };
-                         
+    
+    // function apiCall(author) {
+
+    // das von Kata und Manu für die Suche! vllt kannst du was damit anfangen Max, hat bei mir eben nicht funktioniert
+    // hab bestimmt irgendwas kleines vergessen
+        // $.ajax({
+        // url: "http://api.vissights.net/semaservice-web-api-vissights/v1/person?db=dblp&name=" + author + "",
+        // type: 'GET',
     $.ajax({
         url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
         type: 'GET',
@@ -219,7 +229,7 @@
                 //console.log(name);
         }						
     });
-                      
+    // };                    
     console.log("Hallo");
                       
                   
