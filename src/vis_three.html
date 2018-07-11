@@ -27,13 +27,176 @@
 <body>
 
 	<script>
-		$(document).ready(function(){
-			d3.json("src/testdata.json", function(data){
-				data.forEach(function(d,i){
-					console.log("Name = " + data[i].name);
-				});
-			});
+<!--/******
+ * VISUALISIERUNG 1
+ * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+ * Gruppe: OH_DA Hochschule Darmstadt, 
+ * Sommersemester 2018
+ * Projekt: Visual Forecast Analytics
+ * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
+*****/
+//https://github.com/d3/d3/wiki/tutorials - turoials d3
+//http://api.vissights.net/databases - databases
+-->
+<!DOCTYPE html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<html lang="en">
+<head>
+</head>
+<body>
+
+<script>
+function count(countElement, array){
+	var i = 0;
+	array.forEach(function (element, index){
+		if (element === countElement){
+			i++;
+		}
+	});
+	return i;
+}
+function unique(array){
+	var uniqueElements = [];
+	array.forEach( function (element, index){
+		if (uniqueElements.includes(element)){
+		}
+		else{
+		uniqueElements.push(element);
+		}		
+	});
+	return uniqueElements;
+}
+function flatTopics (publications){
+	var _flatTopics = [];
+		publications.forEach(function(publication, index){
+			Object.keys(publication.topics).forEach(function (topic, index){
+				_flatTopics.push(topic);
+			});		
 		});
+	return _flatTopics
+}
+function weightedTopics (publications){
+	var _weightedTopics = [];
+	var _flatTopics = flatTopics(publications);
+	var _uniqueTopics = unique(_flatTopics);
+	_uniqueTopics.forEach(function (uniqueTopic, index){
+		_weightedTopics.push({name: uniqueTopic, value: count(uniqueTopic, _flatTopics)});
+	});
+	return _weightedTopics;
+}
+function flatAuthors (publications){
+	var _flatAuthors = [];
+		publications.forEach(function(publication, index){
+			Object.keys(publication.author).forEach(function (authors, index){
+				_flatAuthors.push(authors);
+			});		
+		});
+	return _flatAuthors
+}
+
+function weightedAuthors (publications){
+	var _weightedAuthors = [];
+	var _flatAuthors = flatAuthors(publications);
+	var _uniqueAuthors = unique(_flatAuthors);
+	_uniqueAuthors.forEach(function (uniqueAuthors, index){
+		_weightedAuthors.push({name: uniqueAuthors, value: count(uniqueAuthors, _flatAuthors)});
+	});
+	return _weightedAuthors;
+}
+function sumByCount(d){
+	return d.value;
+}
+function niceTreeMap (topics){
+	var color = d3.scaleSequential()
+           //.range(["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", 
+			//"#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]);	
+			 .domain([0,20])
+			 .interpolator(d3.interpolateCool);
+			 
+	var canvas = d3.select("body").append("svg")
+		.attr("width", 1000)
+		.attr("height", 1000)
+		
+	$("svg").css({top: 200, left: 200, position:'absolute'});
+	
+	var treemap = d3.treemap()
+		.tile(d3.treemapResquarify)
+		.size([500,500])
+		
+		
+	 var root = d3.hierarchy(topics)
+      .sum(sumByCount)
+      .sort(function(a, b) { return b.value - a.value });	
+		
+	//console.log(treemap);
+	
+	treemap(root);
+
+	var cell = canvas.selectAll("g")
+		.data(root.leaves())
+		.enter().append("g")
+		.attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+		
+	cell.append("rect")
+      .attr("id", function(d) { return d.data.id; })
+      .attr("width", function(d) { return d.x1 - d.x0; })
+      .attr("height", function(d) { return d.y1 - d.y0; })
+	  .attr("fill", function (d) { return color(d.data.name)})
+	  .attr("stroke-width", 3)
+      .attr("stroke", "black");
+	  
+	cell.append("text")
+		.selectAll("tspan")
+		.data(function(d) { 
+			console.log(d);
+			return d.data.name;
+		})
+		.enter().append("tspan")
+		.attr("x", 4)
+		.attr("y", function(d, i) { return 13 + i * 10; })
+	
+	.text(function(d) { return d; });  
+	
+	canvas.append("text")
+        .attr("x", 700)             
+        .attr("y", 700)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Ich bin ein toller Text und soll eigentlich über der Treemap stehen. LOL");
+};
+
+$(document).ready(function(){
+$.ajax({
+                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
+				type: 'GET',
+				success: function (publications){
+					weightedAuthors(publications);
+					_weightedTopics = weightedTopics(publications);
+					_weightedTopics.sort(function(a,b){
+						return b.value - a.value;
+					});
+					console.log(publications);
+					_weightedAuthors = weightedAuthors(publications);
+					_weightedTopics.length = 20;
+					niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});
+					//niceTreeMap({topic: "", topicCount: 0, children: _weightedAuthors});
+					//console.log(weightedTopics(publications));
+					//console.log(name);
+					}						
+});
+
+console.log("Hallo");
+
+});
+</script>
+<div id="canvas">
+</div>
+</body>
+</html>
 
 	</script>
 
@@ -42,5 +205,138 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     
+</body>
+</html>
+<!--/******
+ * VISUALISIERUNG 1
+ * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+ * Gruppe: OH_DA Hochschule Darmstadt, 
+ * Sommersemester 2018
+ * Projekt: Visual Forecast Analytics
+ * Betreuer: Prof. Dr. Ing.- Kawa Nazemi
+*****/
+//https://github.com/d3/d3/wiki/tutorials - turoials d3
+//http://api.vissights.net/databases - databases
+-->
+<!DOCTYPE html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<html lang="en">
+<head>
+</head>
+<body>
+
+<script>
+function count(countElement, array){
+	var i = 0;
+	array.forEach(function (element, index){
+		if (element === countElement){
+			i++;
+		}
+	});
+	return i;
+}
+function unique(array){
+	var uniqueElements = [];
+	array.forEach( function (element, index){
+		if (uniqueElements.includes(element)){
+		}
+		else{
+		uniqueElements.push(element);
+		}		
+	});
+	return uniqueElements;
+}
+function flatYears (publications){
+	var _flatYears = [];
+		publications.forEach(function(publication, index){
+			Object.keys(publication.year).forEach(function (year, index){
+				_flatYears.push(year);
+			});		
+		});
+	return _flatYears
+}
+function weightedYears (publications){
+	var _weightedYears = [];
+	var _flatYears = flatYears(publications);
+	var _uniqueYears = unique(_flatYears);
+	_uniqueYears.forEach(function (uniqueYear, index){
+		_weightedYears.push({name: uniqueYear, value: count(uniqueYear, _flatYears)});
+	});
+	return _weightedYears;
+}
+function sumByCount(d){
+	return d.value;
+}
+function niceBarChart(years) {
+       $('body').append('<svg width="960" height="500"></svg>');
+       var svg = d3.select("svg"),
+           margin = { top: 20, right: 20, bottom: 30, left: 50 },
+           width = +svg.attr("width") - margin.left - margin.right,
+           height = +svg.attr("height") - margin.top - margin.bottom;
+
+       var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+       var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+           y = d3.scaleLinear().rangeRound([height, 0]);
+
+       var color = d3.scaleSequential()	
+			 .domain([0,20])
+			 .interpolator(d3.interpolateCool);
+
+       var g = svg.append("g")
+           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+       x.domain(data.map(function (d) { return d.year; }));
+       y.domain([0, d3.max(data, function (d) { return d.value; })]);
+
+       g.append("g")
+           .attr("class", "axis axis--x")
+           .attr("transform", "translate(0," + height + ")")
+           .call(d3.axisBottom(x));
+
+       g.append("g")
+           .attr("class", "axis axis--y")
+           .call(d3.axisLeft(y).ticks(5).tickFormat(function (d) { return d; }).tickSizeInner([-width]))
+           .append("text")
+           .attr("transform", "rotate(-90)")
+           .attr("y", 6)
+           .attr("dy", "0.71em")
+           .attr("text-anchor", "end")
+           .attr("fill", "#5D6971")
+           .text("value");
+
+       g.selectAll(".bar")
+           .data(data)
+           .enter().append("rect")
+           .attr("x", function (d) { return x(d.year); })
+           .attr("y", function (d) { return y(d.value); })
+           .attr("width", x.bandwidth())
+           .attr("height", function (d) { return height - y(d.value); })
+           .attr("fill", function (d) { return colours(d.year); })
+
+
+   }
+$(document).ready(function(){
+$.ajax({
+                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
+				type: 'GET',
+				success: function (publications){
+					weightedYears(publications);
+					_weightedYears = weightedYears(publications);
+					
+					console.log(_weightedYears);
+					}						
+});
+
+console.log("Hallo");
+
+});
+</script>
+<div id="canvas">
+</div>
 </body>
 </html>

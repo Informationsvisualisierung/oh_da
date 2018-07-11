@@ -91,7 +91,7 @@ function niceTreeMap (topics){
       .attr("id", function(d) { return d.data.id; })
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
-	  .attr("fill", function (d) { return color(data.value * 10)})
+	  .attr("fill", function (d) { return color(d.data.value * 10)})
 	  .attr("stroke-width", 3)
       .attr("stroke", "black");
 	  
