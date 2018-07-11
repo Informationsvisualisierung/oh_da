@@ -23,30 +23,21 @@
 <body>
     <header>
         <!-- NAVBAR -->
-        <nav class="navbar navbar-light" style="background-color: #757273;">
-            <a class="navbar-brand" href="index.html">
+        <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
+            <a class="navbar-brand" href="landing.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
-            <form class="form-inline" action="" method="">
-                <span class="header-question">What are you looking for?</span>
-                <div class="form-check check-mr">
-                    <input class="form-check-input" type="radio" name="author-radio" id="author-header" value="authors" >
-                        <label class="form-check-label" for="author-header">Auhors</label>
-                    </div>
-                    <div class="form-check check-mr" style="margin: 0 30px 0 20px;">
-                        <input class="form-check-input" type="radio" name="topic-tadio" id="topic-header" value="topics">
-                        <label class="form-check-label" for="topic-header">Topics</label>
-                    </div>
-                <input class="form-control mr-md-12" type="search" placeholder="Search" aria-label="Search">                           
-                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+            <h1>TOPICS</h1>
+            <form class="form-inline" action="" method="" id="topic-search-bar">
+                <input class="form-control mr-md-12" id="topics-search" name="search-topic" value="" type="search" placeholder="Search" aria-label="Search">                           
+                <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </nav>
     </header>
     <main>
         <div class="container-fluid">
             <!-- CONTENT -->
-            <div class="row">
-                
+            <div class="row">      
                 <!-- FILTER & AUSWAHL-->
 
                 <!-- TOPCIS -->
@@ -55,47 +46,33 @@
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
-                                <form action="" method="">
+                                <form id="searchBar" action="" method="">
                                     <label>Databases</label>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="springer" value="option1">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="springer_radio" value="Springer">
                                         <label class="form-check-label" for="springer">Springer</label>
                                     </div>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp" value="option2">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp_radio" value="dblp">
                                         <label class="form-check-label" for="dblp">dblp</label>
                                     </div>
                                     <div class="form-check check-mr">
-                                        <input class="form-check-input" type="radio" name="database-radio" id="eg" value="option2">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="eg_radio" value="eg">
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="topicsin" style="font-weight: 500 !important;">Topics in:</label>
-                                        <input type="text" class="form-control" id="topicsin" placeholder="Please select a topic">
-                                    </div>
-                                    <div id="authorin-badge">
-                                        <span class="badge badge-info"></span>
-                                        <span class="badge badge-info x-span" id="delete-topics-in"> X </span>
-                                    </div>
-                                    <div class="form-group pdt-20">
-                                        <label for="topcisout" style="font-weight: 400;">Topics out:</label>
-                                        <input type="text" class="form-control" id="topicsout" placeholder="Please select a topic">
-                                    </div> 
-                                    <div id="authorin-badge">
-                                        <span class="badge badge-info"></span>
-                                        <span class="badge badge-info x-span" id="delete-topics-out"> X </span>
+                                    
+                                    <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
+                                    <div class="range-year">
+                                        <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start" name="yearStart" value="2000"> 
                                     </div>
                                     <div class="range-year">
-                                        <label for="year-start">Start Year</label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start"> 
-                                    </div>
-                                    <div class="range-year">
-                                        <label for="year-end">End Year</label>
-                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end"> 
+                                            <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end" name="yearEnd" value="2000"> 
                                     </div>
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
-                                            <button class="btn btn-outline-success" type="submit" id="visualize-button">Visualize me!</button>
+                                            <button class="btn btn-outline-success" id="vis-btn" type="submit">Visualize me!</button>
                                         </div>
                                     </div>  
                                 </form>
@@ -104,26 +81,14 @@
                     </div>
                 </div>
                 <!-- MAIN CONTENT  -->
-                <div class="col-8 content-right">
-                    <!-- BREADCRUMB TRAILS -->
-                    <div class="row">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"></li>
-                                <li class="breadcrumb-item"></li>
-                                <li class="breadcrumb-item"></li>
-                            </ol>
-                        </nav>
-                    </div>
-                    <!-- VISUALISIERUNGEN -->
+                 <div class="col-8 content-right">
                     <div class="row">
                         <div class="col-12">
                             <div class="vis-default">
-                                <p style="color: black; font-size:30px; text-align: center; padding-top: 200px;">Visualizations</p>
                             </div>
                         </div>
                     </div>
-                    <!-- DRAG AND DROP -->
+                    <!--
                     <div class="row content-drag drag-row">
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
@@ -137,15 +102,15 @@
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
                         </div>
-                    </div>
-                </div>
+                    </div> -->
+                </div> 
             </div>
         </div> 
     </main>
     <footer>
          <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="padding-top: 100px;">
                     <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
                 </div>
             </div>
@@ -161,11 +126,40 @@
     
     <!-- D3 -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function() {
+            // set steps for range input
+            $('#year-start').on('input change', function() {
+                var element = $('#year-start'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-one').text(value);
+            });
+            $('#year-end').on('input change', function() {
+                var element = $('#year-end'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-two').text(value);
+            });
 
-    <!-- CUSTOM -->
-    <script src="src/vis_one.js"></script>
-    <script src="src/vis_two.js"></script>
-    <script src="src/vis_three.js"></script>
 
+            // Sidebar on SUBMIT --> get the data and send it via POST method
+            $( "#vis-btn" ).click(function(){
+                var radioSidebarValue = $("input[name='database-radio']:checked").val();
+                var yearStart         = $("input[name='yearStart']").val(); 
+                var yearStart         = $("input[name='yearEnd']").val(); 
+            });
+
+            // ************** SEARCH BAR **********/
+
+            $("#search-button").click(function(){
+                var searchResult  = $("#topics-search").val();
+                alert(searchResult);
+            }); 
+        }); 
+    </script>
 </body>
 </html>
