@@ -130,9 +130,10 @@
                         .interpolator(d3.interpolateCool);
                         
                 var canvas = d3.select("#canvas").append("svg")
-                    .attr("width", 1000)
-                    .attr("height", 1000)
-                    .style("background-color", "white");
+                    .attr("width", 800)
+                    .attr("height", 800)
+                    .style("background-color", "#9c999a");
+                    $("svg").css({top: 50, left:100, position:'absolute'});
                     
                 var svg = d3.select("svg"),
                     margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -216,7 +217,7 @@
     </header>
     <main>
             
-        <div class="container-fluid"  style="margin-bottom: 100px;">
+        <div class="container-fluid"  style="margin-bottom: 400px;">
             <!-- CONTENT -->
             <div class="row">      
                 <!-- FILTER & AUSWAHL-->
