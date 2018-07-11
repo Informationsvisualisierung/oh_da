@@ -11,11 +11,11 @@
 -->
 <!DOCTYPE html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="https://d3js.org/d3.v5.min.js"></script>
 
 <html lang="en">
 <head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
 
@@ -87,12 +87,19 @@ function niceTreeMap (topics){
 			 .domain([0,20])
 			 .interpolator(d3.interpolateCool);
 			 
-	var canvas = d3.select("body").append("svg")
+	var canvas = d3.select("#canvas").append("svg")
 		.attr("width", 1000)
-		.attr("height", 1000)
-		
-	$("svg").css({top: 200, left: 200, position:'absolute'});
+		.attr("height", 600)
+		.style("background-color", "salmon")
+		$("svg").css({top: 100, left: 200, position:'absolute'});
 	
+	var canvasTitle = d3.select("#canvasTitle").append("svg")
+		.attr("width", 1000)
+		.attr("height", 90)
+		.style("background-color", "salmon")
+		.style("display", "inline-block");
+		$("svg").css({left: 200, position:'absolute'});
+
 	var treemap = d3.treemap()
 		.tile(d3.treemapResquarify)
 		.size([500,500])
@@ -131,13 +138,19 @@ function niceTreeMap (topics){
 	
 	.text(function(d) { return d; });  
 	
-	canvas.append("text")
-        .attr("x", 700)             
-        .attr("y", 700)
+	canvasTitle.append("text")
+        .attr("x", 250)             
+        .attr("y", 50)
         .attr("text-anchor", "middle")  
-        .style("font-size", "16px") 
-        .style("text-decoration", "underline")  
-        .text("Ich bin ein toller Text und soll eigentlich über der Treemap stehen. LOL");
+        .style("font-size", "30px")  
+		.text("TITLE 1");
+
+	canvasTitle.append("text")
+        .attr("x", 750)             
+        .attr("y", 50)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "30px") 
+        .text("TITLE 2");
 };
 
 $(document).ready(function(){
@@ -165,6 +178,8 @@ console.log("Hallo");
 
 });
 </script>
+<div id="canvasTitle">
+
 <div id="canvas">
 </div>
 </body>
