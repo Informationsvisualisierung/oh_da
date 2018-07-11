@@ -109,7 +109,7 @@ function niceBarChart (data){
       .attr("y", function(d) { return y(d.value); })
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return height - y(d.value); })
-	  .attr("fill", function (d) { return color(d.value * 10)});
+	  .attr("fill", function (d) { return color(d.value * 2)});
 	
 	canvas.append("text")
         .attr("x", 600)             
