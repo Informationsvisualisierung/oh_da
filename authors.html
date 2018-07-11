@@ -24,19 +24,11 @@
     <header>
         <!-- NAVBAR -->
         <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="landing.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
+            <h1>AUTHORS</h1>
             <form class="form-inline" action="" method="" id="author-search-bar">
-                <span style="margin-right: 10px;">What are you looking for?</span>
-                <div class="form-check check-mr">
-                    <input class="form-check-input" type="radio" name="header-radio" id="author-header" value="authors">
-                        <label class="form-check-label" for="author-header">Auhors</label>
-                    </div>
-                    <div class="form-check check-mr" style="margin: 0 30px 0 20px;">
-                        <input class="form-check-input" type="radio" name="header-radio" id="topic-header" value="topics">
-                        <label class="form-check-label" for="topic-header">Topics</label>
-                    </div>
                 <input class="form-control mr-md-12" id="authors-search" name="search-author" value="" type="search" placeholder="Search" aria-label="Search">                           
                 <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
             </form>
@@ -89,19 +81,14 @@
                     </div>
                 </div>
                 <!-- MAIN CONTENT  -->
-                <div class="col-8 content-right">
-                    <!-- "BREADCRUMB TRAILS" -->
-                    <div class="row">
-                        <span style="margin: 10px 5px 0 0;" id="search-author">You are searching for this author: </span>
-                    </div>
-                    <!-- VISUALISIERUNGEN -->
+                 <div class="col-8 content-right">
                     <div class="row">
                         <div class="col-12">
                             <div class="vis-default">
                             </div>
                         </div>
                     </div>
-                    <!-- DRAG AND DROP -->
+                    <!--
                     <div class="row content-drag drag-row">
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
@@ -115,15 +102,15 @@
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
                         </div>
-                    </div>
-                </div>
+                    </div> -->
+                </div> 
             </div>
         </div> 
     </main>
     <footer>
          <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="padding-top: 100px;">
                     <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
                 </div>
             </div>
@@ -166,30 +153,11 @@
                 var yearStart         = $("input[name='yearEnd']").val(); 
             });
 
-            // ************** SEARCH BAR AUTHORS **********/
+            // ************** SEARCH BAR **********/
 
             $("#search-button").click(function(){
-            
-                var headerRadio   = $("input[name='header-radio']:checked").val();
                 var searchResult  = $("#authors-search").val();
-                
-                alert(searchResult + " " + headerRadio);
-                
-                if(headerResul = true){
-                    alert(searchResult);
-                    window.locate = "authors.html";
-                    // $("#after-nav").append("<p>" + searchResult +  "</p>");
-                }else{
-                    alert(searchResult);
-                    window.locate = "topics.html";
-                }
-                //function apiCall(searchValue) {
-                //d3.json("http://api.vissights.net/semaservice-web-api-vissights/v1/person?db=dblp&name=" + searchResult +"" , 
-                  //  function (Author) {
-                  //      var data = [];
-                  //      console.log(Topics);
-                  //  });               
-                // }
+                alert(searchResult);
             }); 
         }); 
     </script>

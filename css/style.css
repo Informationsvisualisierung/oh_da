@@ -21,10 +21,10 @@ a:active                    { color: #322b28; }
 
 /*** ADDITIONAL CLASSES ***/
 .tac                        { text-align: center; }
-.content-left               { margin: 70px 0; }
+.content-left               { margin: 50px 0; }
 .content-right              { margin: 6px 5px; }
 .content-drag               { margin: 5px 0 0 0; }
-.vis-default                { border: 2px solid #322b28; width: 800px; height: 525px; background-color: #3daeac; }
+.vis-default                { border: 2px solid #322b28; width: 800px; height: 400px; background-color: #3daeac; margin: 42px 0; }
 .check-mr                   { margin: 10px 0; }
 .drag-row                   { width: 800px; }
 .drag-div                   { margin-top: 20px; text-align: center; background-color: #757273; border: 2px solid #322b28; width: 80px; height: 124px;}
