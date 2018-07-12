@@ -24,18 +24,21 @@
 
     <script type="text/javascript">
         
-        // für die Weitergabe an den API CALL 
-       //  $('svg').remove();
-          //     
-
        
     </script>
 
-    <title>OH_DA * BARCHART</title>
+    <title>OH_HDA * TREEMAP</title>
 </head>
 <body>
     
     <script>
+         //  canvasTitle.append("text")
+                //    .attr("x", 750)             
+                //    .attr("y", 50)
+                //    .attr("text-anchor", "middle")  
+                //   .style("font-size", "30px") 
+                //    .text("TITLE 2");
+
          $(document).ready(function() {
             // brauchen wir nicht für die visualisierung - sind nur die Schritte für die Jahrauswahl
             $('#year-start').on('input change', function() {
@@ -56,68 +59,51 @@
 
 
 
-            // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
-            $( "#vis-btn" ).click(function(){
-                // value for which database we use
-                var radioSidebarValue = $("input[name='database-radio']:checked").val();
-                // value for which year start
-                var yearStart         = $("input[name='yearStart']").val(); 
-                // value for which year end
-                var yearStart         = $("input[name='yearEnd']").val(); 
-            });
+            
+            
 
-            
-            // SEARCHBAR IM HEADER SUBMIT (Weitergabe an die Treemap!)
-            $("#search-button").submit(function(){
-                // value for which author we are searching
-                var searchResult  = $("#barchart-search").val();
-            }); 
-  
-             
-            
             function count(countElement, array){
-	            var i = 0;
-	            array.forEach(function (element, index){
+                var i = 0;
+                array.forEach(function (element, index){
                     if (element === countElement){
                         i++;
                     }
-	            });
-	            return i;
+                });
+                return i;
             }
-
             function unique(array){
-	            var uniqueElements = [];
-	            array.forEach( function (element, index){
+                var uniqueElements = [];
+                array.forEach( function (element, index){
                     if (uniqueElements.includes(element)){
                     }
                     else{
                     uniqueElements.push(element);
                     }		
-	            });
-	            return uniqueElements;
+                });
+                return uniqueElements;
             }
-            function flatYears (publications){
-                var _flatYears = [];
+            function flatTopics (publications){
+                var _flatTopics = [];
                     publications.forEach(function(publication, index){
-                        publication.year.forEach(function (year, index){
-                            _flatYears.push(year);
+                        Object.keys(publication.topics).forEach(function (topic, index){
+                            _flatTopics.push(topic);
                         });		
                     });
-                return _flatYears
+                return _flatTopics
             }
-            function weightedYears (publications){
-                var _weightedYears = [];
-                var _flatYears = flatYears(publications);
-                var _uniqueYears = unique(_flatYears);
-                _uniqueYears.forEach(function (uniqueYear, index){
-                    _weightedYears.push({name: uniqueYear, value: count(uniqueYear, _flatYears)});
+            function weightedTopics (publications, topics){
+                var _weightedTopics = [];
+                var _flatTopics = flatTopics(publications);
+                var _uniqueTopics = unique(_flatTopics);
+                _uniqueTopics.forEach(function (uniqueTopic, index){
+                    _weightedTopics.push({name: topics[parseInt(uniqueTopic)].phrase[0][0], value: count(uniqueTopic, _flatTopics)});
                 });
-                return _weightedYears;
+                return _weightedTopics;
             }
             function sumByCount(d){
                 return d.value;
             }
-            function niceBarChart (data){
+            function niceTreeMap (topics){
                 var color = d3.scaleSequential()	
                         .domain([0,100])
                         .interpolator(d3.interpolateCool);
@@ -125,74 +111,87 @@
                 var canvas = d3.select("#canvas").append("svg")
                     .attr("width", 800)
                     .attr("height", 800)
-                    .style("background-color", "#9c999a");
+                    .style("background-color", "white")
                     $("svg").css({top: 50, left:100, position:'absolute'});
                     
-                var svg = d3.select("svg"),
-                    margin = {top: 20, right: 20, bottom: 30, left: 40},
-                    width = +svg.attr("width") - margin.left - margin.right,
-                    height = +svg.attr("height") - margin.top - margin.bottom;
-                    
-                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-                    y = d3.scaleLinear().rangeRound([height, 0]);
-		
-                x.domain(data.map(function(d) { return d.name; }));
-                y.domain([0, d3.max(data, function(d) { return d.value; })]);
-                    
-                var g = svg.append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                
+                var treemap = d3.treemap()
+                    .tile(d3.treemapResquarify)
+                    .size([800,800])
+			
+                var root = d3.hierarchy(topics)
+                .sum(sumByCount)
+                .sort(function(a, b) { return b.value - a.value });	
                         
-                g.append("g")
-                    .attr("class", "axis axis--x")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(x));
-                        
-                            
-                g.append("g")
-                    .attr("class", "axis axis--y")
-                    .call(d3.axisLeft(y).ticks(5))
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", "0.71em")
-                    .attr("text-anchor", "end")
-                    .attr("fill", "#006666")
-                    .text("Anzahl Publikationen");
+                treemap(root);
 
-                g.selectAll(".bar")
-                    .data(data)
-                    .enter().append("rect")
-                    .attr("class", "bar")
-                    .attr("x", function(d) { return x(d.name); })
-                    .attr("y", function(d) { return y(d.value); })
-                    .attr("width", x.bandwidth())
-                    .attr("height", function(d) { return height - y(d.value); })
-                    .attr("fill", function (d) { return color(d.value * 2)});
-                }; 
-    $(document).ready(function(){
-        $.ajax({
-                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
-				type: 'GET',
-				success: function (publications){
-						$.ajax({
-								url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
-								type: 'GET',
-								success: function(topics){
-										_weightedYears = weightedYears(publications);
-										_weightedYears.sort(function(a,b){
-											return a.name - b.name;
-										});
-										_weightedYears.length = 8;
-										console.log(_weightedYears);
-										niceBarChart(_weightedYears);			
-										console.log("Hiho");																		
-								}								
-						});					
-					}						
-        });
-    });
-              
-                  
+                var cell = canvas.selectAll("g")
+                    .data(root.leaves())
+                    .enter().append("g")
+                    .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
+		
+                cell.append("rect")
+                .attr("id", function(d) { return d.data.id; })
+                .attr("width", function(d) { return d.x1 - d.x0; })
+                .attr("height", function(d) { return d.y1 - d.y0; })
+                .attr("fill", function (d) { return color(d.data.value * 15)})
+                .attr("stroke-width", 3)
+                .attr("stroke", "black");
+                
+                cell.append("text")
+                    .selectAll("tspan")
+                    .data(function(d) { return d.data.name.split(" "); })
+                    .enter().append("tspan")
+                    .attr("x", 4)
+                    .attr("y", function(d, i) { return 13 + i * 10; })
+                
+                .text(function(d) { return d; });  
+            };
+        
+        $(document).ready(function(){
+            // SEARCHBAR IM HEADER SUBMIT (Weitergabe an die Treemap!)
+           
+                // value for which author we are searching
+                
+                // für die Weitergabe an den API CALL 
+                // $('svg').remove();
+                
+             
+            // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
+            $( "#vis-btn" ).click(function(radioSidebarValue){
+                // value for which database we use
+                var radioSidebarValue = $("input[name='database-radio']:checked").val();
+                // value for which year start
+                var yearStart         = $("input[name='yearStart']").val(); 
+                // value for which year end
+                var yearStart         = $("input[name='yearEnd']").val();
+            });
+
+             $("#search-button").bind("click",function(){
+      //  url: "http://api.vissights.net/semaservice-web-api-vissights/v1/person?db=dblp&name=" + author + "",
+       // type: 'GET',
+    // }).done(function (publications){
+                var searchResult  = $("#treemap-search").val();
+                $.ajax({
+                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=" + searchResult,
+                                type: 'GET',
+                                success: function (publications){
+                                        $.ajax({
+                                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
+                                                type: 'GET',
+                                                success: function(topics){
+                                                        _weightedTopics = weightedTopics(publications, topics);
+                                                        _weightedTopics.sort(function(a,b){
+                                                            return b.value - a.value;
+                                                        });																							
+                                                        _weightedTopics.length = 20;
+                                                        niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});																																					
+                                                }						
+                                        });					
+                                    }						
+                        });
+                });
+        });          
     </script>
     <header>
         <!-- NAVBAR -->
@@ -200,17 +199,17 @@
             <a class="navbar-brand" href="landing.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
-            <h1>BARCHART</h1>
-            <p><a href="treemap.html">Treemap</a></p>
-            <form class="form-inline" action="" method="" id="barchart-search-bar">
-                <input class="form-control mr-md-12" id="barchart-search" name="search-barchart" value="" type="search" placeholder="Search" aria-label="Search">                           
+            <h1>TREEMAP</h1>
+            <p><a href="barchart.html">Barchart</a></p>
+            <form class="form-inline" action="" method="" id="treemap-search-bar">
+                <input class="form-control mr-md-12" id="treemap-search" name="search-treemap" value="" type="search" placeholder="Search" aria-label="Search">                           
                 <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </nav>
     </header>
     <main>
             
-        <div class="container-fluid"  style="margin-bottom: 400px;">
+        <div class="container-fluid"  style="margin-bottom: 500px;">
             <!-- CONTENT -->
             <div class="row">      
                 <!-- FILTER & AUSWAHL-->
@@ -282,8 +281,8 @@
             </div>
         </div> 
     </main>
-    <footer>
-         <div class="container-fluid">
+    <footer >
+         <div class="container-fluid" >
             <div class="row">
                 <div class="col-12">
                     <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
