@@ -158,7 +158,7 @@
                 
              
             // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
-            $( "#vis-btn" ).click(function(radioSidebarValue){
+            $( "#vis-btn" ).click(function(){
                 // value for which database we use
                 var radioSidebarValue = $("input[name='database-radio']:checked").val();
                 // value for which year start
@@ -167,13 +167,11 @@
                 var yearStart         = $("input[name='yearEnd']").val();
             });
 
-             $("#search-button").bind("click",function(){
-      //  url: "http://api.vissights.net/semaservice-web-api-vissights/v1/person?db=dblp&name=" + author + "",
-       // type: 'GET',
-    // }).done(function (publications){
+             $("#search-button").click(function(){
+
                 var searchResult  = $("#treemap-search").val();
                 $.ajax({
-                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=" + searchResult,
+                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname="+searchResult,
                                 type: 'GET',
                                 success: function (publications){
                                         $.ajax({
@@ -191,7 +189,7 @@
                                     }						
                         });
                 });
-        });          
+       // });          
     </script>
     <header>
         <!-- NAVBAR -->
