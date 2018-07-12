@@ -52,8 +52,7 @@ $.ajax({
 						
 				}
 });
-//function(d) greift auf die daten zu, dabei wird d in der function nicht weiter spezifiziert da wir ohnehin nur eine Zahl als Data haben
-// hätten wir mehrere Daten, jeweils für die x und y achse könnte man in der function direkt darauf zugreifen indem man "return d.x*100) schreibt
+
 
 		
 console.log("Hallo");
