@@ -96,6 +96,12 @@
 	            });
 	            return uniqueElements;
             }
+            function shortArray(publications){
+                if (publications.length > 20) {
+                    publications.length = 20;
+                }
+
+            };
             function flatYears (publications){
                 var _flatYears = [];
                     publications.forEach(function(publication, index){
@@ -182,10 +188,8 @@
 										_weightedYears.sort(function(a,b){
 											return a.name - b.name;
 										});
-										_weightedYears.length = 8;
-										console.log(_weightedYears);
-										niceBarChart(_weightedYears);			
-										console.log("Hiho");																		
+										shortArray(_weightedYears);
+										niceBarChart(_weightedYears);																					
 								}								
 						});					
 					}						
