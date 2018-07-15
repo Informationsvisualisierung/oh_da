@@ -7,37 +7,37 @@
         * Gruppe: OH_DA 
         * Hochschule Darmstadt, Sommersemester 2018
         * Projekt: Visual Forecast Analytics
+
+        // Die Datei ist für unsere Barchart (früher als Topics.html geplant)
+        // gleicher Aufbau, wie die treemap.html - MS
     -->
+
+    <!-- UTF-8 Kodierungsstandard MS -->
     <meta charset="utf-8">
+    <!-- Viewport setzen - MS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap -->
+    <!-- Bootstrap - MS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <!-- Google Fonts -->
+    <!-- Google Fonts - MS -->
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"> 
-    <!-- Font Awesome -->
+    <!-- Font Awesome - MS-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <!-- CUSTOM -->
+    <!-- Custom Stylesheet - MS-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
+    <!-- Einbindung JQuery Min - MS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- Einbindung D3 - MS -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
-
-    <script type="text/javascript">
-        
-        // für die Weitergabe an den API CALL 
-       //  $('svg').remove();
-          //     
-
-       
-    </script>
-
     <title>OH_DA * BARCHART</title>
 </head>
 <body>
     
     <script>
+        // Lade JQUERY wenn Dokument fertig geladen ist - MS
          $(document).ready(function() {
-            // brauchen wir nicht für die visualisierung - sind nur die Schritte für die Jahrauswahl
+
+            // Value vom Range Input (Startjahr und Endjahr) festlegen, sobald was geändert wird
+            // Attribut "Step" am Input Feld speichern sobald was eingegeben wurde - MS
             $('#year-start').on('input change', function() {
                 var element = $('#year-start'),
                 value = element.val(),
@@ -52,29 +52,26 @@
                 element.attr('step', step);
                 $('#year-two').text(value);
             });
-        });
+       
 
-
-
-            // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
+            // sobald der Button in der Sidebar links geklickt wurde sollen die Values der Formfields gepseichert werden
+            // der Radio-Button Value soll nur den Wert speichert der auch ausgewählt wurde ("checked")
+            // Start- und Endjahr soll in 2 Variablen gespeichert werden
+            // alle 3 Abfragen basierend auf dem "name" - Wert des Formfields - MS
             $( "#vis-btn" ).click(function(){
-                // value for which database we use
                 var radioSidebarValue = $("input[name='database-radio']:checked").val();
-                // value for which year start
                 var yearStart         = $("input[name='yearStart']").val(); 
-                // value for which year end
                 var yearStart         = $("input[name='yearEnd']").val(); 
             });
 
             
-            // SEARCHBAR IM HEADER SUBMIT (Weitergabe an die Treemap!)
+            // sobald der Search-Button im Header geklickt wird soll der Value aus dem Search Field (mit der ID "#authors-search")
+            // in der Variable "searchResult" gespeichert werden - MS
             $("#search-button").submit(function(){
-                // value for which author we are searching
                 var searchResult  = $("#barchart-search").val();
             }); 
   
-             
-            
+             // MAX
             function count(countElement, array){
 	            var i = 0;
 	            array.forEach(function (element, index){
@@ -85,6 +82,7 @@
 	            return i;
             }
 
+            // MAX
             function unique(array){
 	            var uniqueElements = [];
 	            array.forEach( function (element, index){
@@ -96,12 +94,14 @@
 	            });
 	            return uniqueElements;
             }
+            // MAX
             function shortArray(publications){
                 if (publications.length > 20) {
                     publications.length = 20;
                 }
 
-            };
+            }
+            // MAX
             function flatYears (publications){
                 var _flatYears = [];
                     publications.forEach(function(publication, index){
@@ -111,6 +111,7 @@
                     });
                 return _flatYears
             }
+            // MAX
             function weightedYears (publications){
                 var _weightedYears = [];
                 var _flatYears = flatYears(publications);
@@ -120,40 +121,49 @@
                 });
                 return _weightedYears;
             }
+            // MAX
             function sumByCount(d){
                 return d.value;
             }
+            // MAX
             function niceBarChart (data){
                 var color = d3.scaleSequential()	
                         .domain([0,100])
                         .interpolator(d3.interpolateCool);
-                        
+
+                // Einbindung der Treemap in das Frontend an der Stelle des DIVS mit der ID "#canvas"
+                // Höhe & Breite sind 800px 
+                // Hintergrundfarbe ist weiß, falls was schiefgeht
+                // das SVG soll immer an der selben Stelle erscheinen mit 50px von oben und 100px Abstand von links  
                 var canvas = d3.select("#canvas").append("svg")
                     .attr("width", 800)
                     .attr("height", 800)
                     .style("background-color", "#9c999a");
                     $("svg").css({top: 50, left:100, position:'absolute'});
-                    
+                
+                // MAX
                 var svg = d3.select("svg"),
                     margin = {top: 20, right: 20, bottom: 30, left: 40},
                     width = +svg.attr("width") - margin.left - margin.right,
                     height = +svg.attr("height") - margin.top - margin.bottom;
-                    
+                // MAX   
                 var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
                     y = d3.scaleLinear().rangeRound([height, 0]);
 		
                 x.domain(data.map(function(d) { return d.name; }));
                 y.domain([0, d3.max(data, function(d) { return d.value; })]);
-                    
+
+                // MAX  
                 var g = svg.append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-                        
+                
+                // MAX
                 g.append("g")
                     .attr("class", "axis axis--x")
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x));
                         
-                            
+                // MAX           
                 g.append("g")
                     .attr("class", "axis axis--y")
                     .call(d3.axisLeft(y).ticks(5))
@@ -164,7 +174,7 @@
                     .attr("text-anchor", "end")
                     .attr("fill", "#006666")
                     .text("Anzahl Publikationen");
-
+                // MAX
                 g.selectAll(".bar")
                     .data(data)
                     .enter().append("rect")
@@ -175,6 +185,8 @@
                     .attr("height", function(d) { return height - y(d.value); })
                     .attr("fill", function (d) { return color(d.value * 2)});
                 }; 
+    });
+    // MAX
     $(document).ready(function(){
         $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
@@ -198,35 +210,41 @@
               
                   
     </script>
+
+    <!-- Start des Frontend Designs - MS -->
     <header>
-        <!-- NAVBAR -->
+        <!-- Bootstrap Navbar - MS -->
         <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
+
+            <!-- Logo von unserer Gruppe mit Link auf die Landing Page, um immer wieder zurück zu kommen - MS -->
             <a class="navbar-brand" href="landing.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
             </a>
+            <!-- Titel im Header - MS -->
             <h1>BARCHART</h1>
+            <!-- Dummy-Link um zur Treemap zu wechseln, da wir eigentlich die Radio Buttons für "Author" und "Topic" 
+                vorgesehen hatten - MS -->
             <p><a href="treemap.html">Treemap</a></p>
-            <form class="form-inline" action="" method="" id="barchart-search-bar">
+            <!-- Bootstrap Formular Style für die Searchbar mit eigener Klasse um das Design zu ändern - MS -->
+            <form class="form-inline" id="barchart-search-bar">
                 <input class="form-control mr-md-12" id="barchart-search" name="search-barchart" value="" type="search" placeholder="Search" aria-label="Search">                           
                 <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
             </form>
-        </nav>
-    </header>
+        </nav> <!-- Ende Navigation - MS -->
+    </header> <!-- Ende Header - MS -->
     <main>
-            
+         <!-- Start des Main Contents mit der Klasse "container-fluid" damit das Design auf die komplette Breite ausgelegt wird - MS -->    
         <div class="container-fluid"  style="margin-bottom: 400px;">
-            <!-- CONTENT -->
-            <div class="row">      
-                <!-- FILTER & AUSWAHL-->
-
-                <!-- TOPCIS -->
-                <div class="col-12 col-sm-3 col-md-3 col-3 content-left card">
+            <div class="row">    
+                <!-- Start der Sidebar für die Filter > damit sollte die Visualisierung eingegrenzt und manipuliert werden - MS -->  
+                <div class="col-3 content-left card">
                     <h2 class="filter-heading">Filter</h2>
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
                                 <form id="searchBar" action="" method="">
                                     <label>Databases</label>
+                                    <!-- Form Group für die Radioauswahl der Datenbanken - MS -->
                                     <div class="form-check check-mr">
                                         <input class="form-check-input" type="radio" name="database-radio" id="springer_radio" value="Springer">
                                         <label class="form-check-label" for="springer">Springer</label>
@@ -240,7 +258,7 @@
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
                                     
-                                    <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
+                                    <!-- Range Input Feld für die Jahresauswahl > Start bei 1990 bis 2018 - MS -->
                                     <div class="range-year">
                                         <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
                                         <input type="range" class="custom-range" min="1990" max="2018" id="year-start" name="yearStart" value="2000"> 
@@ -249,6 +267,7 @@
                                             <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
                                         <input type="range" class="custom-range" min="1990" max="2018" id="year-end" name="yearEnd" value="2000"> 
                                     </div>
+                                     <!-- Submit Button für das Sidebar Formular - eigenes Design basierend auf Bootstrap - MS-->
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
                                             <button class="btn btn-outline-success" id="vis-btn" type="submit">Visualize me!</button>
@@ -259,15 +278,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- MAIN CONTENT  -->
+                <!-- Zweite Column für die Visualisierung > CanvasTitle DIV war für die Auswahl zwischen verschiedenen Autoren gedacht - MS  -->
                  <div class="col-8 content-right">
                     <div class="row">
                         <div class="col-12">
                             <div id="canvasTitle"></div>
+                            <!-- Canvas für die Visualisierung auf die im Script zugegriffen wird - MS -->
                             <div id="canvas"></div>
                         </div>
                     </div>
-                    <!--
+                    <!-- Start des Designs für die Drag & Drop Felder > Insgesamt 4 Stück  - MS
                     <div class="row content-drag drag-row">
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
@@ -286,6 +306,7 @@
             </div>
         </div> 
     </main>
+    <!-- Start Footer Container+Row+Column basierend auf der neusten Bootstrap Version - MS -->
     <footer>
          <div class="container-fluid">
             <div class="row">
@@ -296,13 +317,11 @@
         </div>
     </footer>
 
-<!-- ***** SCRIPTS ***** -->
-
-    <!-- BOOTSTRAP -->
+    <!-- Einbindung von der aktuellen JQUERY Version - MS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!-- Einbindung der Popper Library für die neuste Bootstrap Version - MS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    
-    
+    <!-- Einbindung der JavaScript File von Bootstrap - MS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>  
 </body>
 </html>

@@ -1,12 +1,13 @@
 /******
  * CSS File
- * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+ * Autor: Mina Schütz (alle Kommentare von MS)
  * Gruppe: OH_DA Hochschule Darmstadt, 
  * Sommersemester 2018
  * Projekt: Visual Forecast Analytics
 *****/
 
-/*** BASICS ***/
+/* Standardfestlegung für den Body, die HEadings, Paddings (die immer wieder verwendet werden, der Navbar */ 
+ /*   des Main Contents, des Footers und der Links, wenn diese active sind oder mit dem Mauszeiger drüber gegangen wird  */
 body                        { background-color: #3d3233; color: #3daeac; font-size: 16px; font-family: 'Titillium Web', sans-serif; font-weight: 200; }
 h1,h2,h3,h4,h5              { font-family: 'Titillium Web', sans-serif; font-weight: 500; }
 .pdt-20                     { padding: 20px 0 0 0; }
@@ -19,7 +20,7 @@ a                           { color: #5dc4c0; }
 a:hover                     { opacity: 0.8; color:#5dc4c0; }
 a:active                    { color: #322b28; }
 
-/*** ADDITIONAL CLASSES ***/
+/*** Zusätzliche Standardklassen, die immer wieder verwendet wurden ***/
 .tac                        { text-align: center; }
 .content-left               { margin: 50px 0; }
 .content-right              { margin: 6px 5px; }
@@ -34,64 +35,54 @@ a:active                    { color: #322b28; }
 .question-header            { padding-right: 10px; color:#322b28; }
 .header-topic               { margin: 0 30px 0 20px; }
 .logo                       { width: 50%; height: auto; }
-.navbar-color               
+.header-bg                  { background-color: #757273 !important; }
+.line                       { border: 2px solid #3daeac; }
+.mb-500                     { margin: 0 0 500px 0 }
 
-/******** BOOTSTRAP OVERWRITE ********/
-/* BADGE */
+/******** Hauptsächlich Klassen, die schon von Bootstrap vorgegeben wurden, aber für das Design überschrieben ********/
+/* Badge Style  */
 .badge-info                 { background-color: #3daeac !important; font-weight: 200; }
 .btn-info                   { background-color: #3daeac !important; height: 40px; font-weight: 200; }
 /* Button für die Search Bar */
 .btn-success                { color: #757273 !important; border: 2px solid #3daeac !important; background-color: #8ae0de !important;  width: 5em; font-weight: 200; }
-/* Glow */
+/* Glow der Formfields ändern  */
 .form-control:focus         { border-color: #3daeac; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #3daeac; }
 /* Button für Filter */
 .btn-outline-success        { color: #3d3233 !important; border: 2px solid #3daeac !important; border-radius: 20px; background-color: #8ae0de !important;  width: 12.5em; }
 .btn-outline-success:hover  { opacity: 0.6; }
-
 /* Navbar Background */
 .bg-light                   { background-color: #9c999a !important; }
-
 /* Breadcrumb */
 .breadcrumb                 { background-color: #3d3233 !important; border: none; font-weight: 200;}
 .breadcrumb>li+li:before    { color: #5dc4c0; content: ">" !important; font-weight: 200;}
-
 /* Form */
 .form-check-label           { color:#322b28; }
 .lp-margin                  { margin-left: 50px; }
-
 /* Cards */
 .card                       { margin-left: 20px; border: 2px solid #322b28; border-radius: none; background-color: #757273; height: auto; }
 .card-body                  { border-radius: none; background-color: #757273; }
 .card-text                  { color: #322b28; }
-
-/* Card Links */
+/* Nav Links */
 .nav-tabs                   { background-color: #3d3233 !important; border: none; }
 .nav-item                   { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; }
 .nav-link                   { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; }
 .nav-link:active,
 .nav-link:focus             { background-color: #757273 !important; border-radius: 2px; border-color: #5dc4c0 !important; opacity: 0.8; }
 .nav-item:active            { background-color: #3d3233 !important; border-radius: 2px; border-color: #5dc4c0 !important; color: #322b28; }
-
-/*** FONT AWESOME ***/
+/*** Styling der Icons von Font Awesome **/
 .fa-search                  { color: #322b28; font-size: 1em; }
 .fa-plus                    { margin-top: 12px; color: #3daeac; font-size: 6em; }
 
-/* LANDING PAGE */
-.line                       { border: 2px solid #3daeac }
-
-
 /********************** RESPONSIVE DESIGN **********************/
-
+/* Basierend auf den Screen Sizes für Bootstrap > Hier nur für die landing.html umgesetzt > Anpassung der Klassen für den jeweiligen Screen
 /* MEDIUM */ 
 @media only screen and (max-width: 1199px) and (min-width: 992px){
     .lp-margin      { margin-left: 40px; }
 }
-
 /* SMALL */
 @media only screen and (max-width: 991px) and (min-width: 768px){
     .lp-margin      { margin-left: 20px; }
 }
-
 /* MOBILE */
 @media only screen and (max-width: 767px){
     .lp-margin       { margin-left: 10px; }

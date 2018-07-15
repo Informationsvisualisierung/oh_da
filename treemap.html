@@ -2,38 +2,54 @@
 <html>
 <head>
     <!--
-        * INDEX
-        * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
         * Gruppe: OH_DA 
         * Hochschule Darmstadt, Sommersemester 2018
         * Projekt: Visual Forecast Analytics
-    -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"> 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <!-- CUSTOM -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-
-    <script type="text/javascript">
+        * Kürzel: MS - Mina Schütz / MR - Max Röthig
+        // Kurze Erklärung der verschiedenen Dateien: 
+        // treemap.html > Seite für die Treemap (früher als authors.html geplant)
+        // barchart.html > Seite für die Barchart (früher als topics.html geplant)
+        // landing.html > Startseite, um zwischen Treemap und Barchart zu unterscheiden (früher Topics oder Authors)
+        // list.html > Template für die Liste auf die am Ende geklickt werden sollte - basierend auf Bootstrap (sollte dann mit JavaScript dynamisch gefüllt werden)
+        // treemap_copy.html > da haben wir versucht die Values der Inputs weiterzugeben mit der Fehlermeldung, die wir in der Präsentation gezeigt haben
+        // authors_old.html > So war unsere eigentliche Seite geplant - basierend auf dem ursprünglichen Design (allerdings nicht Responsive)
+        // alle Dateien in "old" sind frühere Testversuche von uns und unkommentiert
+        // die Custom CSS Datei (style.css) ist kommentiert
+        // alle anderen Dateien sind auskommentiert - MS
         
-       
-    </script>
+        
+        // die Datei ist für unsere Treemap Visualisierung ohne das die Search Buttons und Sidebar weitergegeben werden - MS 
+    -->
+
+    <!-- UTF-8 Kodierungsstandard MS -->
+    <meta charset="utf-8">
+
+    <!-- Viewport setzen - MS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap - MS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Google Fonts - MS -->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"> 
+    <!-- Font Awesome - MS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- Custom Stylesheet - MS-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- Einbindung JQuery Min - MS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- Einbindung D3 - MS -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 
     <title>OH_HDA * TREEMAP</title>
 </head>
 <body>
     
     <script>
+
+        // Lade JQUERY wenn Dokument fertig geladen ist - MS
          $(document).ready(function() {
-            // brauchen wir nicht für die visualisierung - sind nur die Schritte für die Jahrauswahl
+
+            // Value vom Range Input (Startjahr und Endjahr) festlegen, sobald was geändert wird
+            // Attribut "Step" am Input Feld speichern sobald was eingegeben wurde - MS
             $('#year-start').on('input change', function() {
                 var element = $('#year-start'),
                 value = element.val(),
@@ -50,27 +66,23 @@
             });
 
 
-            // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
+            // sobald der Button in der Sidebar links geklickt wurde sollen die Values der Formfields gepseichert werden
+            // der Radio-Button Value soll nur den Wert speichert der auch ausgewählt wurde ("checked")
+            // Start- und Endjahr soll in 2 Variablen gespeichert werden
+            // alle 3 Abfragen basierend auf dem "name" - Wert des Formfields - MS
             $( "#vis-btn" ).click(function(){
-                // value for which database we use
                 var radioSidebarValue = $("input[name='database-radio']:checked").val();
-                // value for which year start
                 var yearStart         = $("input[name='yearStart']").val(); 
-                // value for which year end
                 var yearStart         = $("input[name='yearEnd']").val(); 
             });
 
-            
-            // SEARCHBAR IM HEADER SUBMIT (Weitergabe an die Treemap!)
+            // sobald der Search-Button im Header geklickt wird soll der Value aus dem Search Field (mit der ID "#authors-search")
+            // in der Variable "searchResult" gespeichert werden - MS
             $("#search-button").click(function(){
-                // value for which author we are searching
                 var searchResult  = $("#authors-search").val();
-
-                // für die Weitergabe an den API CALL 
-                $('svg').remove();
-                apiCall(searchResult);
             }); 
 
+            // MAX 
             function count(countElement, array){
                 var i = 0;
                 array.forEach(function (element, index){
@@ -80,6 +92,8 @@
                 });
                 return i;
             }
+
+            // MAX
             function unique(array){
                 var uniqueElements = [];
                 array.forEach( function (element, index){
@@ -91,12 +105,16 @@
                 });
                 return uniqueElements;
             }
+
+            // MAX
             function shortArray(publications){
                 if (publications.length > 20) {
                     publications.length = 20;
                 }
 
-            };
+            }
+
+            // MAX
             function flatTopics (publications){
                 var _flatTopics = [];
                     publications.forEach(function(publication, index){
@@ -106,6 +124,8 @@
                     });
                 return _flatTopics
             }
+
+            // MAX
             function weightedTopics (publications, topics){
                 var _weightedTopics = [];
                 var _flatTopics = flatTopics(publications);
@@ -115,36 +135,50 @@
                 });
                 return _weightedTopics;
             }
+
+            // MAX
             function sumByCount(d){
                 return d.value;
             }
+
+            // MAX
             function niceTreeMap (topics){
+
+                // MAX
                 var color = d3.scaleSequential()	
                         .domain([0,100])
                         .interpolator(d3.interpolateCool);
-                        
+                
+                // Einbindung der Treemap in das Frontend an der Stelle des DIVS mit der ID "#canvas"
+                // Höhe & Breite sind 800px 
+                // Hintergrundfarbe ist weiß, falls was schiefgeht
+                // das SVG soll immer an der selben Stelle erscheinen mit 50px von oben und 100px Abstand von links
                 var canvas = d3.select("#canvas").append("svg")
                     .attr("width", 800)
                     .attr("height", 800)
-                    .style("background-color", "white")
+                    .style("background-color", "white") 
                     $("svg").css({top: 50, left:100, position:'absolute'});
                     
-                
+                // MAX
                 var treemap = d3.treemap()
                     .tile(d3.treemapResquarify)
                     .size([800,800])
-			
+                
+                // MAX
                 var root = d3.hierarchy(topics)
                 .sum(sumByCount)
                 .sort(function(a, b) { return b.value - a.value });	
-                        
-                treemap(root);
 
+                // MAX   
+                treemap(root);
+                
+                // MAX
                 var cell = canvas.selectAll("g")
                     .data(root.leaves())
                     .enter().append("g")
                     .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
 		
+                // MAX
                 cell.append("rect")
                 .attr("id", function(d) { return d.data.id; })
                 .attr("width", function(d) { return d.x1 - d.x0; })
@@ -153,6 +187,7 @@
                 .attr("stroke-width", 3)
                 .attr("stroke", "black");
                 
+                // MAX
                 cell.append("text")
                     .selectAll("tspan")
                     .data(function(d) { return d.data.name.split(" "); })
@@ -160,13 +195,15 @@
                     .attr("x", 4)
                     .attr("y", function(d, i) { return 13 + i * 10; })
                 
+                // MAX
                 .text(function(d) { return d; });  
             };
-
+        });
+        // MAX
         $(document).ready(function(){
         $.ajax({    
                              //http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel
-                        url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
+                        url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",
                         type: 'GET',
                         success: function (publications){
                                 $.ajax({
@@ -185,37 +222,46 @@
                             }						
                 });
             });
-        });          
+        
     </script>
+
+    <!-- Start des Frontend Designs - MS -->
     <header>
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
+        <!-- Bootstrap Navbar mit eigener Klasse um die Hintergrundfarbe zu überschreiben - MS -->
+        <nav class="navbar navbar-light header-bg" id="after-nav">
+
+            <!-- Logo von unserer Gruppe mit Link auf die Landing Page, um immer wieder zurück zu kommen - MS -->
             <a class="navbar-brand" href="landing.html">
-               <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
+               <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="OH_DA">
             </a>
+
+            <!-- Titel im Header - MS -->
             <h1>TREEMAP</h1>
+
+            <!-- Dummy-Link um zur Barchart zu wechseln, da wir eigentlich die Radio Buttons für "Author" und "Topic" 
+                vorgesehen hatten - MS -->
             <p><a href="barchart.html">Barchart</a></p>
-            <form class="form-inline" action="" method="" id="treemap-search-bar">
-                <input class="form-control mr-md-12" id="treemap-search" name="search-treemap" value="" type="search" placeholder="Search" aria-label="Search">                           
+
+            <!-- Bootstrap Formular Style für die Searchbar mit eigener Klasse um das Design zu ändern - MS -->
+            <form class="form-inline" id="treemap-search-bar">
+                <input class="form-control mr-md-12" id="treemap-search" name="search-treemap" value="" type="search" placeholder="Search" aria-label="Search">                         
                 <button class="btn btn-success" id="search-button" type="submit"><i class="fas fa-search"></i></button>
             </form>
-        </nav>
-    </header>
+        </nav> <!-- Ende Navigation - MS -->
+    </header> <!-- Ende Header - MS -->
     <main>
-            
-        <div class="container-fluid"  style="margin-bottom: 500px;">
-            <!-- CONTENT -->
+        <!-- Start des Main Contents mit der Klasse "container-fluid" damit das Design auf die komplette Breite ausgelegt wird - MS -->  
+        <div class="container-fluid mb-500">
+            <!-- Start der Sidebar für die Filter > damit sollte die Visualisierung eingegrenzt und manipuliert werden - MS -->
             <div class="row">      
-                <!-- FILTER & AUSWAHL-->
-
-                <!-- TOPCIS -->
-                <div class="col-12 col-sm-3 col-md-3 col-3 content-left card">
+                <div class="col-3 content-left card">
                     <h2 class="filter-heading">Filter</h2>
                     <div class="card-body">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
-                                <form id="searchBar" action="" method="">
+                                <form id="sideBarSearch">
                                     <label>Databases</label>
+                                    <!-- Form Group für die Radioauswahl der Datenbanken - MS -->
                                     <div class="form-check check-mr">
                                         <input class="form-check-input" type="radio" name="database-radio" id="springer_radio" value="Springer">
                                         <label class="form-check-label" for="springer">Springer</label>
@@ -229,7 +275,7 @@
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
                                     
-                                    <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
+                                    <!-- Range Input Feld für die Jahresauswahl > Start bei 1990 bis 2018 - MS -->
                                     <div class="range-year">
                                         <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
                                         <input type="range" class="custom-range" min="1990" max="2018" id="year-start" name="yearStart" value="2000"> 
@@ -238,6 +284,7 @@
                                             <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
                                         <input type="range" class="custom-range" min="1990" max="2018" id="year-end" name="yearEnd" value="2000"> 
                                     </div>
+                                    <!-- Submit Button für das Sidebar Formular - eigenes Design basierend auf Bootstrap - MS-->
                                     <div class="row justify-content-center">
                                         <div class="col-10 tac">
                                             <button class="btn btn-outline-success" id="vis-btn" type="submit">Visualize me!</button>
@@ -248,15 +295,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- MAIN CONTENT  -->
+                <!-- Zweite Column für die Visualisierung > CanvasTitle DIV war für die Auswahl zwischen verschiedenen Autoren gedacht - MS  -->
                  <div class="col-8 content-right">
                     <div class="row">
                         <div class="col-12">
                             <div id="canvasTitle"></div>
+                            <!-- Canvas für die Visualisierung auf die im Script zugegriffen wird - MS -->
                             <div id="canvas"></div>
                         </div>
                     </div>
-                    <!--
+                    <!-- Start des Designs für die Drag & Drop Felder > Insgesamt 4 Stück  - MS
                     <div class="row content-drag drag-row">
                         <div class="col-3 drag-div">
                             <i class="fas fa-plus"></i>
@@ -275,7 +323,8 @@
             </div>
         </div> 
     </main>
-    <footer >
+    <!-- Start Footer Container+Row+Column basierend auf der neusten Bootstrap Version - MS -->
+    <footer>
          <div class="container-fluid" >
             <div class="row">
                 <div class="col-12">
@@ -284,14 +333,12 @@
             </div>
         </div>
     </footer>
-
-<!-- ***** SCRIPTS ***** -->
-
-    <!-- BOOTSTRAP -->
+ 
+    <!-- Einbindung von der aktuellen JQUERY Version - MS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!-- Einbindung der Popper Library für die neuste Bootstrap Version - MS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    
-    
+    <!-- Einbindung der JavaScript File von Bootstrap - MS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>  
 </body>
 </html>

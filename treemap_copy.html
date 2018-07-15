@@ -3,10 +3,13 @@
 <head>
     <!--
         * INDEX
-        * Author: Mina Schütz (730205), Max Röthig, Laura Puchinger
+        * Author: Mina Schütz, Max Röthig, Laura Puchinger
         * Gruppe: OH_DA 
         * Hochschule Darmstadt, Sommersemester 2018
         * Projekt: Visual Forecast Analytics
+
+        * In dieser Datei wurde nur der veränderte Code gegenüber der normalen Treemap kommentiert (treemap.html) - MS
+        * Hier wurde versucht, dass die Values der Searchbar und des Radiobuttons der Sidebar an den API Call weitergegeben werden - MS
     -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,15 +35,8 @@
 <body>
     
     <script>
-         //  canvasTitle.append("text")
-                //    .attr("x", 750)             
-                //    .attr("y", 50)
-                //    .attr("text-anchor", "middle")  
-                //   .style("font-size", "30px") 
-                //    .text("TITLE 2");
 
          $(document).ready(function() {
-            // brauchen wir nicht für die visualisierung - sind nur die Schritte für die Jahrauswahl
             $('#year-start').on('input change', function() {
                 var element = $('#year-start'),
                 value = element.val(),
@@ -55,12 +51,7 @@
                 element.attr('step', step);
                 $('#year-two').text(value);
             });
-        });
-
-
-
-            
-            
+        });    
 
             function count(countElement, array){
                 var i = 0;
@@ -149,27 +140,52 @@
             };
         
         $(document).ready(function(){
-            // SEARCHBAR IM HEADER SUBMIT (Weitergabe an die Treemap!)
            
-                // value for which author we are searching
-                
-                // für die Weitergabe an den API CALL 
-                // $('svg').remove();
-                
-             
-            // SIDEBAR SUBMIT - FILTER (Weitergabe an die Treemap!)
+        
+            // hier in der ersten Funktion werden die Values der Sidebar gespeichert und sollen dann weitergegeben werden
+            // ausführlichere Beschreibung des Problems weiter unten! - MS
             $( "#vis-btn" ).click(function(){
-                // value for which database we use
                 var radioSidebarValue = $("input[name='database-radio']:checked").val();
-                // value for which year start
                 var yearStart         = $("input[name='yearStart']").val(); 
-                // value for which year end
                 var yearStart         = $("input[name='yearEnd']").val();
-            });
-
+                $('svg').remove();
+                $.ajax({
+                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/"+radioSidebarValue+"/author/search?authorname=Kawa%20Nazemi",
+                                type: 'GET',
+                                success: function (publications){
+                                        $.ajax({
+                                                url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
+                                                type: 'GET',
+                                                success: function(topics){
+                                                        _weightedTopics = weightedTopics(publications, topics);
+                                                        _weightedTopics.sort(function(a,b){
+                                                            return b.value - a.value;
+                                                        });																							
+                                                        _weightedTopics.length = 20;
+                                                        niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});																																					
+                                                }						
+                                        });					
+                                    }						
+                        });
+                });
+           
+            // hier wird der Value von der Searchbar an den API Call weitergegeben in einer Funktion
+            // Wahlweise hätten wir auch die Funktion erst abgefragt, eine Funktion um den API Call rumgeschrieben und den
+            // Wert der Value-Funktion weitergegeben, indem Funktion für den Ajax Call in der Funktion der Value Abfrage 
+            // aufgerufen wird > gleiches Ergebnis > bei beiden wird der Value gespeichert aber nicht richtig weitergegeben
+            // - MS 
              $("#search-button").click(function(){
 
                 var searchResult  = $("#treemap-search").val();
+                // alert(searchResult) >> wir haben getestet, ob der Value auch wirklich in der Variable gepspeichert wird
+                // CORS Request Fail im Browser (getestet mit Firefox und Chrome - beide die neusten Versionen)
+                // der URL Link im Ajax Request wird richtig übergeben laut Firefox Fehlermeldung 
+                // wir haben das sowohl für den Search Button als auch für den Value der RadioButtons ausprobiert 
+                // also anstatt "springer" im url-Link durch die Variable ersetzen 
+                // gab die gleiche Fehlermeldung wie bei der Searchbar 
+                // haben es auch mit verschiedenen Funktionen probiert (on submit, on click, mit bind und auch mit input=name 
+                // >> alles gleiches Ergebnis )
+                //$('svg').remove(); > altes svg soll entfernt werden sobald die Suchanfrage gestartet wird - MS 
                 $.ajax({
                                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname="+searchResult,
                                 type: 'GET',
@@ -189,10 +205,9 @@
                                     }						
                         });
                 });
-       // });          
+       });          
     </script>
     <header>
-        <!-- NAVBAR -->
         <nav class="navbar navbar-light" style="background-color: #757273;" id="after-nav">
             <a class="navbar-brand" href="landing.html">
                <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
@@ -205,14 +220,9 @@
             </form>
         </nav>
     </header>
-    <main>
-            
+    <main>        
         <div class="container-fluid"  style="margin-bottom: 500px;">
-            <!-- CONTENT -->
             <div class="row">      
-                <!-- FILTER & AUSWAHL-->
-
-                <!-- TOPCIS -->
                 <div class="col-12 col-sm-3 col-md-3 col-3 content-left card">
                     <h2 class="filter-heading">Filter</h2>
                     <div class="card-body">
@@ -233,7 +243,6 @@
                                         <label class="form-check-label" for="eg">eg</label>
                                     </div>
                                     
-                                    <!-- bis 2018 in 1-Jahres Schritten ab 1990 -->
                                     <div class="range-year">
                                         <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
                                         <input type="range" class="custom-range" min="1990" max="2018" id="year-start" name="yearStart" value="2000"> 
@@ -252,7 +261,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- MAIN CONTENT  -->
                  <div class="col-8 content-right">
                     <div class="row">
                         <div class="col-12">
@@ -260,21 +268,6 @@
                             <div id="canvas"></div>
                         </div>
                     </div>
-                    <!--
-                    <div class="row content-drag drag-row">
-                        <div class="col-3 drag-div">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="col-3 drag-div">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="col-3 drag-div">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <div class="col-3 drag-div">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                    </div> -->
                 </div> 
             </div>
         </div> 
@@ -288,14 +281,8 @@
             </div>
         </div>
     </footer>
-
-<!-- ***** SCRIPTS ***** -->
-
-    <!-- BOOTSTRAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    
-    
 </body>
 </html>

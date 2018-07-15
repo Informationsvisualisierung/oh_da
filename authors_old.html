@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        * INDEX
+        * Author: Mina Schütz, Max Röthig, Laura Puchinger
+        * Gruppe: OH_DA 
+        * Hochschule Darmstadt, Sommersemester 2018
+        * Projekt: Visual Forecast Analytics
+
+        // Die Topicsseite hätte genauso ausgesehen, wie diese - nur andere Visualisierungen als Content - MS
+    -->
+    <!-- UTF-8 Kodierungsstandard MS -->
+    <meta charset="utf-8">
+    <!-- Viewport setzen - MS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap - MS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <!-- Google Fonts - MS -->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet"> 
+    <!-- Font Awesome - MS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- Custom Stylesheet - MS-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>OH_DA</title>
+    <!-- Einbindung D3 - MS -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+    <!-- Start des Scripts, um die Values und Inputs zu verändern, um diese
+    später an die Visualisierung weiterzugeben - MS -->
+    <script type="text/javascript">
+        
+        $(document).ready(function() {
+
+            // Wenn der Plus-Button in der Linken Sidebar gedrückt wird soll diese Funktion aufgerufen werden 
+            // hätte, wenn wir das benutzt hätten mit einer FOR-Schleife in einem Array gespeichert werden
+            // müssen, damit mehrere Values gespeichert werden können - MS
+            $("#add-badge-out").click(function(){
+                // Speicherung des Input-Values in einer Variablen - MS
+                var tag = $("#authors-out").val();
+                // danach soll der Input als Badge an das Div angehängt werden - MS
+                $("#authorout-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-out'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-out'> X </span>");     
+            });
+            
+            // Wenn der Plus-Button in der Linken Sidebar gedrückt wird soll diese Funktion aufgerufen werden - MS
+            $("#add-badge-in").click(function(){
+                // Speicherung des Input-Values in einer Variablen - MS
+                var tag = $("#authors-in").val();
+                // danach soll der Input als Badge an das Div angehängt werden - MS
+                $("#authorin-badge").append("<span class='btn btn-info' style='margin: 5px 0 0 5px;' id='left-badge-in'>" + tag +  "</span>" + "<span class='btn btn-info x-span' style='margin-top: 5px;' id='delete-author-in'> X </span>");
+            });
+            
+            // Wenn das X - Badge geklickt wird, soll das Badge für Author-In gelöscht werden (hat nicht funktioniert) - MS
+            $("#delete-author-in").click(function(){
+                $("#left-badge-in").remove();
+                $("#delete-author-in").remove();
+            });
+
+            // Wenn das X - Badge geklickt wird, soll das Badge für Author-Out gelöscht werden (hat nicht funktioniert) - MS
+            $("#delete-author-out").click(function(){
+                $("#left-badge-out").remove();
+                $("#delete-author-out").remove();
+            });
+
+            // Value vom Range Input (Startjahr und Endjahr) festlegen, sobald was geändert wird
+            // Attribut "Step" am Input Feld speichern sobald was eingegeben wurde - MS
+            $('#year-start').on('input change', function() {
+                var element = $('#year-start'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-one').text(value);
+            });
+            $('#year-end').on('input change', function() {
+                var element = $('#year-end'),
+                value = element.val(),
+                step = 1;
+                element.attr('step', step);
+                $('#year-two').text(value);
+            });
+            
+            // wenn der sidebarbutton geklickt wird sollen die Daten übergeben werden - MS
+            $( "#vis-btn" ).click(function(){
+                var radioSidebarValue = $("input[name='database-radio']:checked").val();
+                var yearStart         = $("input[name='yearStart']").val(); 
+                var yearStart         = $("input[name='yearEnd']").val(); 
+                var yearStart         = $("year-start").val();
+                var yearEnd           = $("year-end").val();
+            });
+
+           // wenn der searchbarbutton geklickt wird sollen die Daten übergeben werden - MS
+            $( "#author-search-bar" ).submit(function( event ) {
+                
+                // das Value des markierten Radiobuttons soll in der Variable radioSidebarValue gespeichert
+                // werden und dementsprechend entweder auf der gleichen Seite bleiben und die Visualisierung ausgeben
+                // oder auf die andere Seite und die andere Visualisierung laden - MS
+                $('input:radio').change(function(){
+
+                    // Speicherung des ausgewählten Radio-Buttons - MS
+                    var radioSidebarValue = $("form input[name='header-radio']:checked").val();
+                    
+                    // If Schleife für die Weiterleitung - MS
+                    if (radioSidebarValue = "topics"){
+                        window.location = 'topics.html';
+                    }
+                    if (radioSideBarValue = "authors"){
+                        // wenn der Button geklickt wurde soll das search result hinter dem Text im Main Content ausgegeben werden
+                        // damit der User weiß, was er gerade sucht - MS 
+                        $("#search-author").append("<span  style='padding-left: 10px;'" + searchResult +  "</span>");
+                    }
+                    // das alte SVG soll gelöscht werden, bei einer neuen Suchanfrage - MS
+                    $('svg').remove(); 
+                });
+            }); 
+            // hier wäre die Einbindung der Visualisierungen - MS         
+        });
+    </script>
+</head>
+<body>
+    <!-- Start des Frontend Designs - MS -->
+    <header>
+        <!-- Bootstrap Navbar mit eigener Klasse um die Hintergrundfarbe zu überschreiben - MS -->
+        <nav class="navbar navbar-light" style="background-color: #757273;">
+            <!-- Einbindung des Logos in den Header - MS -->
+            <a class="navbar-brand" href="index.html">
+               <img src="logo.png" style="width: 50%; height: auto;" class="d-inline-block align-top" alt="LOGO">
+            </a>
+            <!-- Formular für die Suche, entweder kann man Autoren oder Topics als Radio-Button auswählen - MS -->
+            <form class="form-inline" action="" method="" id="author-search-bar">
+                <span style="margin-right: 10px;">What are you looking for?</span>
+                <div class="form-check check-mr">
+                    <input class="form-check-input" type="radio" name="header-radio" id="author-header" value="authors">
+                        <label class="form-check-label" for="author-header">Auhors</label>
+                    </div>
+                    <div class="form-check check-mr" style="margin: 0 30px 0 20px;">
+                        <input class="form-check-input" type="radio" name="header-radio" id="topic-header" value="topics">
+                        <label class="form-check-label" for="topic-header">Topics</label>
+                    </div>
+                <!-- Search Bar + Button für die Suche -->
+                <input class="form-control mr-md-12" id="authors-search" name="search-author" value="" type="search" placeholder="Search" aria-label="Search">                           
+                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </nav>
+    </header>
+    <main>
+        <!-- Start des Main Contents mit der Klasse "container-fluid" damit das Design auf die komplette Breite ausgelegt wird - MS -->
+        <div class="container-fluid">
+            <div class="row">  
+                <!-- Start der Sidebar für die Filter > damit sollte die Visualisierung eingegrenzt und manipuliert werden - MS -->    
+                <div class="col-3 content-left card">
+                    <h2 class="filter-heading">Filter</h2>
+                    <div class="card-body">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-filter" role="tabpanel" aria-labelledby="nav-filter-tab">
+                                <form id="searchBar">
+                                     <!-- Form Group für die Radioauswahl der Datenbanken - MS -->
+                                    <label>Databases</label>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="springer_radio" value="Springer">
+                                        <label class="form-check-label" for="springer">Springer</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="dblp_radio" value="dblp">
+                                        <label class="form-check-label" for="dblp">dblp</label>
+                                    </div>
+                                    <div class="form-check check-mr">
+                                        <input class="form-check-input" type="radio" name="database-radio" id="eg_radio" value="eg">
+                                        <label class="form-check-label" for="eg">eg</label>
+                                    </div>
+                                    <!-- Input Field für die Auswahl der Autoren, die in der Visualisierung vorkommen
+                                    sollen -MS -->
+                                    <div class="form-group" id="authorin-badge">
+                                        <label for="authorsin" style="font-weight: 500 !important;">Authors in:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-in" placeholder="Please type in an author" value="">
+                                            <!-- Plus-Button, um per JavaScript den Value als Badge hinzuzufügen -MS -->
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-in">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Input Field für die Auswahl der Autoren, die in der Visualisierung vorkommen
+                                    sollen -MS -->
+                                    <div class="form-group" id="authorout-badge">
+                                        <label for="authors-out" style="font-weight: 500 !important;">Authors out:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="authors-out" placeholder="Please type in an author" value="">
+                                             <!-- Plus-Button, um per JavaScript den Value als Badge hinzuzufügen -MS -->
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="add-badge-out">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Range Input Feld für die Jahresauswahl > Start bei 1990 bis 2018 - MS -->
+                                    <div class="range-year">
+                                        <label for="year-start"><span>Start Year: </span><span id="year-one"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-start" value="2000"> 
+                                    </div>
+                                    <div class="range-year">
+                                            <label for="year-end"><span>End Year: </span><span id="year-two"> </span></label>
+                                        <input type="range" class="custom-range" min="1990" max="2018" id="year-end" value="2000"> 
+                                    </div>
+                                    <!-- Submit Button für das Sidebar Formular - eigenes Design basierend auf Bootstrap - MS-->
+                                    <div class="row justify-content-center">
+                                        <div class="col-10 tac">
+                                            <button class="btn btn-outline-success" id="vis-btn" type="submit">Visualize me!</button>
+                                        </div>
+                                    </div>  
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Zweite Column für die Visualisierung - MS  -->
+                <div class="col-8 content-right">
+                    <!-- hier sollte nach dem Text ausgegeben werden, welcher Autor bzw. welche Topic für die Suche eingegeben
+                    wurde (mit JavaScript) - MS -->
+                    <div class="row">
+                        <span style="margin: 10px 5px 0 0;" id="search-author">You are searching for this author: </span>
+                    </div>
+                    <!-- hier ist der Bereich für die Visualisierung - MS -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="canvas">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Start des Designs für die Drag & Drop Felder > Insgesamt 4 Stück  - MS -->
+                    <div class="row content-drag drag-row">
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="col-3 drag-div">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </main>
+    <!-- Start Footer Container+Row+Column basierend auf der neusten Bootstrap Version - MS -->
+    <footer>
+         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <p>Visual Forecast Analytics - Max, Laura, Mina - SS2018 - Hochschule Darmstadt</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Einbindung von der aktuellen JQUERY Version - MS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Einbindung der Popper Library für die neuste Bootstrap Version - MS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <!-- Einbindung der JavaScript File von Bootstrap - MS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    
+</body>
+</html>
