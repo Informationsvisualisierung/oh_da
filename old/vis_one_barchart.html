@@ -125,10 +125,6 @@ $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
 				type: 'GET',
 				success: function (publications){
-						$.ajax({
-								url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
-								type: 'GET',
-								success: function(topics){
 										_weightedYears = weightedYears(publications);
 										_weightedYears.sort(function(a,b){
 											return a.name - b.name;
@@ -138,8 +134,8 @@ $.ajax({
 										niceBarChart(_weightedYears);			
 										console.log("Hiho");																		
 								}								
-						});					
-					}						
+										
+											
 });
 console.log("Hallo");
 

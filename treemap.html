@@ -82,7 +82,10 @@
                 var searchResult  = $("#authors-search").val();
             }); 
 
-            // MAX 
+            // Die Funktion count zählt alle Elemente eines Arrays.
+			// Dabei wird mit einer forEach-Schleife durch das Array iteriert und für jedes Element die Variable i um eins hochgezählt.
+			// Durch die zwei Parameter countElement und Array wird dafür gesorgt, dass erst überprüft wird ob das Element bereits in countElement vorhanden ist und hochgezählt wird.
+			// Die Anzahl aller Elemente in countElement wird dann durch return gespeichert. - MR
             function count(countElement, array){
                 var i = 0;
                 array.forEach(function (element, index){
@@ -93,7 +96,10 @@
                 return i;
             }
 
-            // MAX
+            // Die Funktion unique entfernt doppelte (oder mehrfach auftretende) Elemente innerhalb eines Arrays. 
+			// Wenn das Element nicht bereits in uniqueElements vorhanden ist, wird das Element durch .push in das Ergebnis-Arrays uniqueElements hinzugefügt.
+			// Wenn das Element bereits vorhanden ist passiert nichts und es wird zum nächsten Element weitergegangen.
+			// Durch return wird dann ein Array mit einzigartigen Elementen gespeichert. - MR
             function unique(array){
                 var uniqueElements = [];
                 array.forEach( function (element, index){
@@ -106,7 +112,8 @@
                 return uniqueElements;
             }
 
-            // MAX
+            // Die Funktion shortArray überprüft, ob ein Array mehr als 20 Einträge hat, falls ja wird es auf genau 20 Einträge reduziert.
+			// Die Länge der Arrays wird hierbei durch .length ermittelt. - MR
             function shortArray(publications){
                 if (publications.length > 20) {
                     publications.length = 20;
@@ -114,7 +121,9 @@
 
             }
 
-            // MAX
+            // Die Funktion flatTopics erstellt das Array _flatTopics. Dabei wird mit einer forEach-Schleife das Ergebnis der Datenbankabfrage durchlaufen und alle Topics 
+			// in das Array _flatTopics geschrieben.
+			// Durch das return wird das Array _flatTopics gespeichert. - MR
             function flatTopics (publications){
                 var _flatTopics = [];
                     publications.forEach(function(publication, index){
@@ -125,26 +134,36 @@
                 return _flatTopics
             }
 
-            // MAX
+            // Die Funktion weightedTopics erstellt das Array _weightedTopics. Dieses Array beinhaltet alle einzigartigen Topics und deren Gewicht/Anzahl.
+			// Hier werden alle bereits erklärten Funktionen aufgerufen. 
+			// Zuerst wird die Funktion flatTopics ausgeführt, wodurch ein Array der Topics entsteht, in diesem Array können doppelte/mehrfache Einträge vorhanden sein.
+			// Dann wird die Funktion unique ausgeführt, wodurch das Array _flatTopics von doppelten/mehrfachen Einträgen bereinigt wird und die einzigartigen Topics in der Variabel _unqiueTopics gespeichert werden.
+			// Als letztes wird das Array mit einer forEach-Schleife durchlaufen und das Ergebnisarray _weightedTopics befüllt. 
+			// Das fertige Array _weightedTopics enthält nun die Namen der Topics und wie oft diese vorkommen und wird durch return gespeichert. - MR
             function weightedTopics (publications, topics){
                 var _weightedTopics = [];
                 var _flatTopics = flatTopics(publications);
                 var _uniqueTopics = unique(_flatTopics);
                 _uniqueTopics.forEach(function (uniqueTopic, index){
+					// Der Name der Topics wird mithilfe der TopicID ermittelt. An der Stelle der TopicID wird dann der erste Eintrag der phrase übernommen. 
+					// Dies ist der Tatsache verschuldet, dass ich mir nicht ableiten konnte, welcher Name genau für welche TopicID steht.
+					// Wie oft die Topics vorkommen wurde hier als value bezeichnet, dabei wird die oben bereits beschriebene count Funktion ausgeführt.
+					// Die dafür genutzen Arrays sind uniqueTopic und _flatTopics. - MR
                     _weightedTopics.push({name: topics[parseInt(uniqueTopic)].phrase[0][0], value: count(uniqueTopic, _flatTopics)});
                 });
                 return _weightedTopics;
             }
 
-            // MAX
+            
             function sumByCount(d){
                 return d.value;
             }
 
-            // MAX
+            // Die Funktion niceTreeMap erstellt eine Treemap, bei der die Daten Topics angezeigt werden. - MR
             function niceTreeMap (topics){
 
-                // MAX
+                // In der Variabel color werden die zu nutzenden Farben festgelegt. Urpsprünglich wollte ich eine Farbenkategorie von d3 benutzen (z.Bsp.: d3 category20b), jedoch hat das nicht funktioniert.
+				// Deswegen habe ich eine Farbensequenz mit dem vorgefertigten Interpolator "Cool" genutzt. - MR
                 var color = d3.scaleSequential()	
                         .domain([0,100])
                         .interpolator(d3.interpolateCool);
@@ -159,26 +178,31 @@
                     .style("background-color", "white") 
                     $("svg").css({top: 50, left:100, position:'absolute'});
                     
-                // MAX
+                // Hier wird eine 800x800 Pixel große Treemap initialisiert. - MR
                 var treemap = d3.treemap()
                     .tile(d3.treemapResquarify)
                     .size([800,800])
                 
-                // MAX
+                // Hier wird die root Variabel mit einer d3 Hierarchie gefüllt. Diese Hierarchie wird mit unseren Daten (topics) erstellt. 
+				// Die Hierarchie wird für das Erstellen der Treemap benötigt.
+				// Die Einträge werden zusätzlich gezählt und der Größe nach absteigend sortiert. - MR
                 var root = d3.hierarchy(topics)
                 .sum(sumByCount)
                 .sort(function(a, b) { return b.value - a.value });	
 
-                // MAX   
+                // Die Treemap benutzt die root Variable, um automatisch zusätzlich noch x und y Werte zu erstellen, welche für die Position der Kacheln innerhalb der Treemap genutzt werden.
+				// Diese Werte werden abhängig vom Wert value erstellt und ermöglichen die automatische Erstellung der Treemap, ohne das man manuell x und y Werte erstellen/hinzufügen muss. - MR
                 treemap(root);
                 
-                // MAX
+                // Hier wird eine Zelle erstellt, an die dann die Erstellung der Rechtecke gehangen wird. - MR
                 var cell = canvas.selectAll("g")
                     .data(root.leaves())
                     .enter().append("g")
                     .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; });
 		
-                // MAX
+                // Hier werden die Rechtecke/Kacheln (rect) der Treemap erstellt. Die Farbe der Rechtecke wird abhängig vom Value erstellt
+				// und jedes Rechteck wird mit einem schwarzen Rand versehen, die Farbe und dicke des Randes wird in den letzten beiden Zeilen bestimmt.
+				// Die Position wird an den automatisch erstellten x und y Werten festgemacht. - MR
                 cell.append("rect")
                 .attr("id", function(d) { return d.data.id; })
                 .attr("width", function(d) { return d.x1 - d.x0; })
@@ -187,7 +211,8 @@
                 .attr("stroke-width", 3)
                 .attr("stroke", "black");
                 
-                // MAX
+                // Hier wird das erstellte Rechteck beschriftet, und zwar mit dem Namen des Topics (d.data.name).
+				// Hierbei werden Leerstellen beachtet, und mithilfe der x und y Attribute festgelegt, wo der Name erscheinen soll. - MR
                 cell.append("text")
                     .selectAll("tspan")
                     .data(function(d) { return d.data.name.split(" "); })
@@ -195,12 +220,21 @@
                     .attr("x", 4)
                     .attr("y", function(d, i) { return 13 + i * 10; })
                 
-                // MAX
                 .text(function(d) { return d; });  
             };
         });
-        // MAX
+		// Die Treemap wurde mithilfe des Beispiels von bl.ocks erstellt(https://bl.ocks.org/mbostock/4063582). 
+		// Dadurch kann ich einige Stellen des Codes der Treemap nur lückenhaft bzw. oberflächlich erklären und hoffe dass meine Kommentare nicht total falsches Erklären. - MR
+		
         $(document).ready(function(){
+		// Hier werden mithilfe der ersten Ajaxabfrage alle Informationen zu einem Author (Melanie Siegel im Beispiel) abgerufen. Bei Erfolg wird eine geschachtelte zweite Ajaxabfrage
+		// durchgeführt, bei der die Topics abgerufen werden. Die zweite Abfrage wird benötigt, um die TopicID durch die Topicnamen zu ersetzen.
+		// Bei Erfolg wird nun die Funktion weightedTopics aufgerufen und das Ergebnis in __weightedTopics gespeichert.
+		// _weightedTopics wird nun der Größe des values nach absteigend sortiert.
+		// Danach wird dafür gesorgt dass _weightedTopics nicht mehr als 20 Einträge besitzt.
+		// Als letzter Schritt wird die Funktion niceTreeMap aufgerufen, bei der _weightedTopics als Daten für die Treemap genutzt werden. 
+		// Hier wurde manuell mithilfe von {topics: "", topicCount: 0, children: _weightedTopics} eine tiefere Hierarchie geschaffen, da die Daten sonst zu flach wären und nicht als eine Hierarchie gesehen werden,
+		// welche aber für die Treemap notwendig ist. - MR
         $.ajax({    
                              //http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel
                         url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",

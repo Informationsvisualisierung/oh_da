@@ -71,7 +71,10 @@
                 var searchResult  = $("#barchart-search").val();
             }); 
   
-             // MAX
+            // Die Funktion count zählt alle Elemente eines Arrays.
+			// Dabei wird mit einer forEach-Schleife durch das Array iteriert und für jedes Vorkommen eines Elementes die Variable i um eins hochgezählt.
+			// Durch die zwei Parameter countElement und Array wird dafür gesorgt, dass erst überprüft wird ob das Element bereits in countElement vorhanden ist und hochgezählt wird.
+			// Die Anzahl aller Elemente in countElement wird dann durch return gespeichert. - MR
             function count(countElement, array){
 	            var i = 0;
 	            array.forEach(function (element, index){
@@ -82,7 +85,10 @@
 	            return i;
             }
 
-            // MAX
+            // Die Funktion unique entfernt doppelte (oder mehrfach auftretende) Elemente innerhalb eines Arrays. 
+			// Wenn das Element nicht bereits in uniqueElements vorhanden ist, wird das Element durch .push in das Ergebnis-Arrays uniqueElements hinzugefügt.
+			// Wenn das Element bereits vorhanden ist passiert nichts und es wird zum nächsten Element weitergegangen.
+			// Durch return wird dann ein Array mit einzigartigen Elementen gespeichert. - MR
             function unique(array){
 	            var uniqueElements = [];
 	            array.forEach( function (element, index){
@@ -94,14 +100,17 @@
 	            });
 	            return uniqueElements;
             }
-            // MAX
+            // Die Funktion shortArray überprüft, ob ein Array mehr als 20 Einträge hat, falls ja wird es auf genau 20 Einträge reduziert.
+			// Die Länge der Arrays wird hierbei durch .length ermittelt. - MR
             function shortArray(publications){
                 if (publications.length > 20) {
                     publications.length = 20;
                 }
 
             }
-            // MAX
+            // Die Funktion flatYears erstellt das Array _flatYears. Dabei wird mit einer forEach-Schleife das Ergebnis der Datenbankabfrage durchlaufen und alle Jahreszahlen 
+			// in das Array _flatYears geschrieben.
+			// Durch das return wird das Array _flatYears gespeichert. - MR
             function flatYears (publications){
                 var _flatYears = [];
                     publications.forEach(function(publication, index){
@@ -111,27 +120,33 @@
                     });
                 return _flatYears
             }
-            // MAX
+            // Die Funktion weightedYears erstellt das Array _weightedTopics. Dieses Array beinhaltet alle einzigartigen Jahreszahlen und deren Gewicht/Anzahl.
+			// Hier werden alle bereits erklärten Funktionen aufgerufen. 
+			// Zuerst wird die Funktion flatYears ausgeführt, wodurch ein Array der Jahreszahlen entsteht, in diesem Array können doppelte/mehrfache Einträge vorhanden sein.
+			// Dann wird die Funktion unique ausgeführt, wodurch das Array _flatYears von doppelten/mehrfachen Einträgen bereinigt wird und die einzigartigen Jahreszahlen in der Variabel _unqiueYears gespeichert werden.
+			// Als letztes wird das Array mit einer forEach-Schleife durchlaufen und das Ergebnisarray _weightedYears befüllt. 
+			// Das fertige Array _weightedYears enthält nun die Namen der Topics und wie oft diese vorkommen und wird durch return gespeichert. - MR
             function weightedYears (publications){
                 var _weightedYears = [];
                 var _flatYears = flatYears(publications);
                 var _uniqueYears = unique(_flatYears);
                 _uniqueYears.forEach(function (uniqueYear, index){
+					// Wie oft die Jahreszahlen vorkommen wurde hier als value bezeichnet, dabei wird die oben bereits beschriebene count Funktion ausgeführt.
+					// Die dafür genutzen Arrays sind uniqueYear und _flatYears. - MR
                     _weightedYears.push({name: uniqueYear, value: count(uniqueYear, _flatYears)});
                 });
                 return _weightedYears;
             }
-            // MAX
-            function sumByCount(d){
-                return d.value;
-            }
-            // MAX
+         
+            // Die Funktion niceBarChart erstellt ein Barchart, bei der die Daten data angezeigt werden. - MR
             function niceBarChart (data){
+				// In der Variabel color werden die zu nutzenden Farben festgelegt. Ursprünglich wollte ich eine Farbenkategorie von d3 benutzen (z.Bsp.: d3 category20b), jedoch hat das nicht funktioniert.
+				// Deswegen habe ich eine Farbensequenz mit dem vorgefertigten Interpolator "Cool" genutzt. - MR
                 var color = d3.scaleSequential()	
                         .domain([0,100])
                         .interpolator(d3.interpolateCool);
 
-                // Einbindung der Treemap in das Frontend an der Stelle des DIVS mit der ID "#canvas"
+                // Einbindung des Barcharts in das Frontend an der Stelle des DIVS mit der ID "#canvas"
                 // Höhe & Breite sind 800px 
                 // Hintergrundfarbe ist weiß, falls was schiefgeht
                 // das SVG soll immer an der selben Stelle erscheinen mit 50px von oben und 100px Abstand von links  
@@ -141,29 +156,32 @@
                     .style("background-color", "#9c999a");
                     $("svg").css({top: 50, left:100, position:'absolute'});
                 
-                // MAX
+                // Hier wurde ein SVG erstellt, in welchem sich dann das Barchart befinden soll. - MR
                 var svg = d3.select("svg"),
                     margin = {top: 20, right: 20, bottom: 30, left: 40},
                     width = +svg.attr("width") - margin.left - margin.right,
                     height = +svg.attr("height") - margin.top - margin.bottom;
-                // MAX   
+                // Hier wurden die X und Y Achsen des Diagramms erstellt. Dabei wurde jeweils width oder height durch den Wert 0 ersetzt, entsprechend der jeweiligen Achse.
+				// Danach wurde die Domain der Achsen festgelegt, also die Beschriftung der Achsen. Die X-Achse soll dabei mit dem Namen ( in unserem Falle der Jahreszahl) beschriftet werden,
+				// die y-Achse mit der Anzahl (also Value). - MR
                 var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
                     y = d3.scaleLinear().rangeRound([height, 0]);
 		
                 x.domain(data.map(function(d) { return d.name; }));
                 y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-                // MAX  
+                // Hier wird eine Variable g erstellt und und an das SVG herangehängt. - MR  
                 var g = svg.append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
                 
-                // MAX
+                // Hier wird die X-Achse näher beschrieben. - MR
                 g.append("g")
                     .attr("class", "axis axis--x")
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x));
                         
-                // MAX           
+                // Hier wird die y-Achse näher beschrieben. Dabei wird festgelegt in viele Abschnitte sie unterteilt werden soll, welche Farbe sie besitzen soll und dass sie eine Beschriftung
+				// "Anzahl Publikationen" besitzen soll. - MR
                 g.append("g")
                     .attr("class", "axis axis--y")
                     .call(d3.axisLeft(y).ticks(5))
@@ -174,7 +192,9 @@
                     .attr("text-anchor", "end")
                     .attr("fill", "#006666")
                     .text("Anzahl Publikationen");
-                // MAX
+                // Hier werden die bars in Form eines Rechteckes (rect) erstellt und mit der Klasse bar versehen. Dabei werden die Parameter name (d.name) für den x Wert und
+				// value (d.value) für den y Wert genutzt.
+				// Abhängig vom Value wird dann in den letzten beiden Zeilen die Höhe und die Farbe des Rechteckes bestimmt. - MR
                 g.selectAll(".bar")
                     .data(data)
                     .enter().append("rect")
@@ -185,25 +205,25 @@
                     .attr("height", function(d) { return height - y(d.value); })
                     .attr("fill", function (d) { return color(d.value * 2)});
                 }; 
+				// Das barchart wurde auch mithilfe eines Beispieles von bl.ocks erstellt (https://bl.ocks.org/mbostock/3885304).
+				// Dadurch gibt es auch hier Stellen im Code, bei denen ich mir leider nicht zu hundertprozent über deren Funktion sicher bin. - MR
     });
-    // MAX
+    // Hier werden mithilfe der Ajaxabfrage alle Informationen zu einem Author (Melanie Siegel im Beispiel) abgerufen. 
+	// Bei Erfolg wird nun die Funktion weightedYears aufgerufen und das Ergebnis in __weightedYears gespeichert.
+	// _weightedYears wird nun der Größe des values nach aufsteigend sortiert.
+	// Danach wird dafür gesorgt dass _weightedYears nicht mehr als 20 Einträge besitzt.
+	// Als letzter Schritt wird die Funktion niceBarChart aufgerufen, bei der _weightedYears als Daten für das Barchart genutzt werden. - MR
     $(document).ready(function(){
         $.ajax({
                 url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
 				type: 'GET',
-				success: function (publications){
-						$.ajax({
-								url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
-								type: 'GET',
-								success: function(topics){
+				success: function (publications){																						
 										_weightedYears = weightedYears(publications);
 										_weightedYears.sort(function(a,b){
 											return a.name - b.name;
 										});
 										shortArray(_weightedYears);
-										niceBarChart(_weightedYears);																					
-								}								
-						});					
+										niceBarChart(_weightedYears);											
 					}						
         });
     });
