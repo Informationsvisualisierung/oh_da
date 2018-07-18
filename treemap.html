@@ -75,7 +75,7 @@
                 var yearStart         = $("input[name='yearStart']").val(); 
                 var yearStart         = $("input[name='yearEnd']").val(); 
             });
-
+        });
             // sobald der Search-Button im Header geklickt wird soll der Value aus dem Search Field (mit der ID "#authors-search")
             // in der Variable "searchResult" gespeichert werden - MS
             $("#search-button").click(function(){
@@ -162,7 +162,7 @@
             // Die Funktion niceTreeMap erstellt eine Treemap, bei der die Daten Topics angezeigt werden. - MR
             function niceTreeMap (topics){
 
-                // In der Variabel color werden die zu nutzenden Farben festgelegt. Urpsprünglich wollte ich eine Farbenkategorie von d3 benutzen (z.Bsp.: d3 category20b), jedoch hat das nicht funktioniert.
+                // In der Variable color werden die zu nutzenden Farben festgelegt. Urpsprünglich wollte ich eine Farbenkategorie von d3 benutzen (z.Bsp.: d3 category20b), jedoch hat das nicht funktioniert.
 				// Deswegen habe ich eine Farbensequenz mit dem vorgefertigten Interpolator "Cool" genutzt. - MR
                 var color = d3.scaleSequential()	
                         .domain([0,100])
@@ -222,7 +222,7 @@
                 
                 .text(function(d) { return d; });  
             };
-        });
+       
 		// Die Treemap wurde mithilfe des Beispiels von bl.ocks erstellt(https://bl.ocks.org/mbostock/4063582). 
 		// Dadurch kann ich einige Stellen des Codes der Treemap nur lückenhaft bzw. oberflächlich erklären und hoffe dass meine Kommentare nicht total falsches Erklären. - MR
 		
@@ -235,26 +235,26 @@
 		// Als letzter Schritt wird die Funktion niceTreeMap aufgerufen, bei der _weightedTopics als Daten für die Treemap genutzt werden. 
 		// Hier wurde manuell mithilfe von {topics: "", topicCount: 0, children: _weightedTopics} eine tiefere Hierarchie geschaffen, da die Daten sonst zu flach wären und nicht als eine Hierarchie gesehen werden,
 		// welche aber für die Treemap notwendig ist. - MR
-        $.ajax({    
-                             //http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel
-                        url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel",
-                        type: 'GET',
-                        success: function (publications){
-                                $.ajax({
-                                        url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
-                                        type: 'GET',
-                                        success: function(topics){
-                                                _weightedTopics = weightedTopics(publications, topics);
-                                                _weightedTopics.sort(function(a,b){
-                                                    return b.value - a.value;
-                                                });						
+            $.ajax({    
+                                //http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Melanie%20Siegel
+                            url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/author/search?authorname=Kawa%20Nazemi",
+                            type: 'GET',
+                            success: function (publications){
+                                    $.ajax({
+                                            url: "http://api.vissights.net/semaservice-web-api-vissights/v2/springer/topics",
+                                            type: 'GET',
+                                            success: function(topics){
+                                                    _weightedTopics = weightedTopics(publications, topics);
+                                                    _weightedTopics.sort(function(a,b){
+                                                        return b.value - a.value;
+                                                    });						
 
-                                                shortArray(_weightedTopics);
-                                                niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});																																					
-                                        }						
-                                });					
-                            }						
-                });
+                                                    shortArray(_weightedTopics);
+                                                    niceTreeMap({topic: "", topicCount: 0, children: _weightedTopics});																																					
+                                            }						
+                                    });					
+                                }						
+                    });
             });
         
     </script>
@@ -285,7 +285,7 @@
     </header> <!-- Ende Header - MS -->
     <main>
         <!-- Start des Main Contents mit der Klasse "container-fluid" damit das Design auf die komplette Breite ausgelegt wird - MS -->  
-        <div class="container-fluid mb-500">
+        <div class="container-fluid" style="margin-bottom: 500px;">
             <!-- Start der Sidebar für die Filter > damit sollte die Visualisierung eingegrenzt und manipuliert werden - MS -->
             <div class="row">      
                 <div class="col-3 content-left card">

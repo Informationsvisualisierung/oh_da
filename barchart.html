@@ -64,13 +64,13 @@
                 var yearStart         = $("input[name='yearEnd']").val(); 
             });
 
-            
+       
             // sobald der Search-Button im Header geklickt wird soll der Value aus dem Search Field (mit der ID "#authors-search")
             // in der Variable "searchResult" gespeichert werden - MS
             $("#search-button").submit(function(){
                 var searchResult  = $("#barchart-search").val();
             }); 
-  
+        });   
             // Die Funktion count zählt alle Elemente eines Arrays.
 			// Dabei wird mit einer forEach-Schleife durch das Array iteriert und für jedes Vorkommen eines Elementes die Variable i um eins hochgezählt.
 			// Durch die zwei Parameter countElement und Array wird dafür gesorgt, dass erst überprüft wird ob das Element bereits in countElement vorhanden ist und hochgezählt wird.
@@ -207,7 +207,7 @@
                 }; 
 				// Das barchart wurde auch mithilfe eines Beispieles von bl.ocks erstellt (https://bl.ocks.org/mbostock/3885304).
 				// Dadurch gibt es auch hier Stellen im Code, bei denen ich mir leider nicht zu hundertprozent über deren Funktion sicher bin. - MR
-    });
+  
     // Hier werden mithilfe der Ajaxabfrage alle Informationen zu einem Author (Melanie Siegel im Beispiel) abgerufen. 
 	// Bei Erfolg wird nun die Funktion weightedYears aufgerufen und das Ergebnis in __weightedYears gespeichert.
 	// _weightedYears wird nun der Größe des values nach aufsteigend sortiert.
